@@ -1,4 +1,4 @@
-# danoniplus-custom
+# Dancing☆Onigiri(CW Edition) - customjs
 [Dancing☆Onigiri(CW Edition)](https://github.com/cwtickle/danoniplus) の自作品用customjs
 
 自作品用のjsを管理するためのものです。  
