@@ -25,7 +25,7 @@
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = "sp1";
+    g_localVersion2 = "sp-1";
 }
 
 /**
