@@ -1,11 +1,14 @@
 ﻿'use strict';
 /**
  * Dancing☆Onigiri カスタム用jsファイル
- * ver 0.43.0 以降向け
+ * [for Cross Walker]
  * 
- * このファイルは、作品個別に設定できる項目となっています。
- * 譜面データ側で下記のように作品別の外部jsファイルを指定することで、
- * danoni_main.js の中身を変えることなく設定が可能です。
+ * 作品共通カスタム設定
+ * 　・カスタム変数の定義 (titlesize, titlefont)
+ * 　・製作者のデフォルトアドレス指定
+ * 　・楽曲タイトル、アーティスト名の自動反映
+ * 　・Readyモーション
+ * 　・背景設定
  * 
  * 設定例：
  * |customjs=danoni_custom-003.js|
@@ -23,7 +26,7 @@
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = "ti-1.3";
+	g_localVersion = "ti-3.3";
 
 	// レイヤー情報取得
 	var layer0 = document.getElementById("layer0");
@@ -42,6 +45,7 @@ function customTitleInit() {
 	lblArrow.style.opacity = 0.25;
 	lblArrow.style.zIndex = 0;
 	divRoot.appendChild(lblArrow);
+
 
 	// 曲名文字描画（曲名は譜面データから取得）
 	// TEST:試験的に矢印色の1番目と3番目を使ってタイトルをグラデーション
@@ -65,20 +69,53 @@ function customTitleInit() {
 	if (g_rootObj.titlesize != undefined && g_rootObj.titlesize != "") {
 		titlefontsize = setVal(g_rootObj.titlesize, titlefontsize, "number");
 	}
+	// カスタム変数 titlefont の定義
+	var titlefontname = "メイリオ";
+	if (g_rootObj.titlefont != undefined && g_rootObj.titlefont != "") {
+		titlefontname = setVal(g_rootObj.titlefont, titlefontname, "string");
+	}
 
 	createLabel(l0ctx, g_headerObj["musicTitle"], g_sWidth / 2, g_sHeight / 2,
-		titlefontsize, "メイリオ", grd, "center");
+		titlefontsize, titlefontname, grd, "center");
 
+	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl == location.href) {
 		g_headerObj.creatorUrl = "http://cw7.sakura.ne.jp/";
 	}
 
+	// 楽曲タイトル、アーティスト名の自動反映（Thanks: MFV2さん)
 	if (document.getElementById("musicTitle") != null) {
 		document.getElementById("musicTitle").innerText = g_headerObj.musicTitle;
 	}
 	if (document.getElementById("artistName") != null) {
 		document.getElementById("artistName").innerText = g_headerObj.artistName;
 		document.getElementById("artistName").href = g_headerObj.artistUrl;
+	}
+
+	// 初項
+	g_headerObj.calcFirstTerm = 0;
+	// 交差
+	g_headerObj.calcDifference = 0;
+	// フリーズ基本点
+	g_headerObj.calcFreeze = 0;
+	// 得点率 (誤差フレーム数毎に定義)
+	g_headerObj.calcScoreRates = [100, 99, 95, 80, 60, 30];
+
+	// スコア機構
+	if (g_rootObj.scoreType === "Type2") {
+
+		let scoreIdHeader = "";
+		if (g_stateObj.scoreId > 0) {
+			scoreIdHeader = Number(g_stateObj.scoreId) + 1;
+		}
+
+		// 譜面データより初項、交差、フリーズ基本点を取得
+		if (g_rootObj.calc_data !== undefined && g_rootObj.calc_data !== "") {
+			const calcs = g_rootObj["calc" + scoreIdHeader + "_data"].split(",");
+			g_headerObj.calcFirstTerm = parseInt(calcs[0]);
+			g_headerObj.calcDifference = parseInt(calcs[1]);
+			g_headerObj.calcFreeze = parseInt(calcs[2]);
+		}
 	}
 }
 
@@ -150,6 +187,12 @@ function customKeyConfigInit() {
  */
 function customLoadingInit() {
 
+	// 実際のスコア
+	g_resultObj.realScore = 0;
+	// ドラムロール上のスコア
+	g_workObj.viewScore = 0;
+	// 実際のスコア - ドラムロール上のスコア
+	g_workObj.tempScore = 0;
 }
 
 /**
@@ -167,7 +210,7 @@ function customMainInit() {
 	l0ctx.fillStyle = grd;
 	l0ctx.fillRect(0, 0, g_sWidth, g_sHeight);
 
-	// ここにカスタム処理を記述する
+	// Ready表示
 	if (g_rootObj.customReady == undefined || g_rootObj.customReady != "true") {
 		var lblReady = createDivLabel("lblReady", g_sWidth / 2 - 100, g_sHeight / 2 - 75,
 			200, 50, 40, C_CLR_TITLE,
@@ -177,6 +220,22 @@ function customMainInit() {
 		lblReady.style.animationName = "leftToRightFade";
 		lblReady.style.opacity = 0;
 	}
+
+	// スコアドラムロール
+	if (g_rootObj.scoreType === "Type2") {
+		const judgeSprite = document.getElementById("judgeSprite");
+		const lblScore = createDivLabel("lblScore", g_sWidth * 3 / 4, g_sHeight - 30, g_sWidth / 4 - 50, 30, 14, "#ffffff",
+			"Score:");
+		lblScore.style.textAlign = C_ALIGN_LEFT;
+		lblScore.style.fontFamily = C_LBL_BASICFONT;
+		judgeSprite.appendChild(lblScore);
+
+		const lblScoreRoll = createDivLabel("lblScoreRoll", g_sWidth / 2, g_sHeight - 30, g_sWidth / 2 - 10, 30, 14, "#ffffff",
+			g_workObj.viewScore);
+		lblScoreRoll.style.textAlign = C_ALIGN_RIGHT;
+		lblScoreRoll.style.fontFamily = C_LBL_BASICFONT;
+		judgeSprite.appendChild(lblScoreRoll);
+	}
 }
 
 /**
@@ -184,6 +243,24 @@ function customMainInit() {
  */
 function customMainEnterFrame() {
 
+	// スコアドラムロール
+	if (g_rootObj.scoreType === "Type2") {
+		if (g_resultObj.realScore > g_workObj.viewScore) {
+			g_workObj.tempScore = g_resultObj.realScore - g_workObj.viewScore;
+			if (g_workObj.tempScore < 100) {
+				g_workObj.viewScore += 1;
+			} else if (g_workObj.tempScore < 1000) {
+				g_workObj.viewScore += 11;
+			} else if (g_workObj.tempScore < 10000) {
+				g_workObj.viewScore += 111;
+			} else if (g_workObj.tempScore < 100000) {
+				g_workObj.viewScore += 1111;
+			} else {
+				g_workObj.viewScore += 11111;
+			}
+			document.getElementById("lblScoreRoll").innerHTML = g_workObj.viewScore;
+		}
+	}
 }
 
 /**
@@ -204,5 +281,73 @@ function customResultInit() {
 	var lblTitle = document.getElementById("lblTitle");
 	lblTitle.style.animationDuration = "1.5s";
 	lblTitle.style.animationName = "upToDown";
+
+
+	// スコア計算
+	if (g_rootObj.scoreType === "Type2") {
+		g_resultObj.score = g_resultObj.realScore;
+		document.getElementById("lblScoreS").innerHTML = g_resultObj.score;
+	}
+}
+
+/**
+ * 判定カスタム処理 (引数は共通で1つ保持)
+ * @param {number} difFrame タイミング誤差(フレーム数)
+ */
+// イイ
+function customJudgeIi(difFrame) {
+	if (g_rootObj.scoreType === "Type2") {
+		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
+		const absDifFrame = Math.abs(difFrame);
+		if (absDifFrame <= 5) {
+			g_resultObj.realScore += Math.floor(g_headerObj.calcFirstTerm +
+				g_headerObj.calcDifference * multi * g_headerObj.calcScoreRates[absDifFrame] / 100);
+		}
+	}
+}
+
+// シャキン
+function customJudgeShakin(difFrame) {
+	if (g_rootObj.scoreType === "Type2") {
+		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
+		const absDifFrame = Math.abs(difFrame);
+		if (absDifFrame <= 5) {
+			g_resultObj.realScore += Math.floor(g_headerObj.calcFirstTerm +
+				g_headerObj.calcDifference * multi * g_headerObj.calcScoreRates[absDifFrame] / 100);
+		}
+	}
+}
+
+// マターリ
+function customJudgeMatari(difFrame) {
+	if (g_rootObj.scoreType === "Type2") {
+		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
+		const absDifFrame = Math.abs(difFrame);
+		if (absDifFrame <= 5) {
+			g_resultObj.realScore += Math.floor(g_headerObj.calcFirstTerm +
+				g_headerObj.calcDifference * multi * g_headerObj.calcScoreRates[absDifFrame] / 100);
+		}
+	}
+}
+
+// ショボーン
+function customJudgeShobon(difFrame) {
+
+}
+
+// ウワァン
+function customJudgeUwan(difFrame) {
+
+}
+
+// キター
+function customJudgeKita(difFrame) {
+	if (g_rootObj.scoreType === "Type2") {
+		g_resultObj.realScore += Math.floor(g_headerObj.calcFreeze);
+	}
+}
+
+// イクナイ
+function customJudgeIknai(difFrame) {
 
 }
