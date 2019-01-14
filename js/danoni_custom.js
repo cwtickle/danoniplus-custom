@@ -211,7 +211,7 @@ function customMainInit() {
 	l0ctx.fillRect(0, 0, g_sWidth, g_sHeight);
 
 	// Ready表示
-	if (g_rootObj.customReady == undefined || g_rootObj.customReady != "true") {
+	if (g_rootObj.customReady === undefined || g_rootObj.customReady !== "true") {
 		const lblReady = createDivLabel("lblReady", g_sWidth / 2 - 100, g_sHeight / 2 - 75,
 			200, 50, 40, C_CLR_TITLE,
 			"<span style='color:" + g_headerObj["setColor"][0] + ";font-size:60px;'>R</span>EADY<span style='font-size:50px;'>?</span>");
