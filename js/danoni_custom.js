@@ -26,7 +26,7 @@
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = "ti-3.3";
+	g_localVersion = "ti-3.4";
 
 	// レイヤー情報取得
 	var layer0 = document.getElementById("layer0");
@@ -100,23 +100,6 @@ function customTitleInit() {
 	g_headerObj.calcFreeze = 0;
 	// 得点率 (誤差フレーム数毎に定義)
 	g_headerObj.calcScoreRates = [100, 99, 95, 80, 60, 30];
-
-	// スコア機構
-	if (g_rootObj.scoreType === "Type2") {
-
-		let scoreIdHeader = "";
-		if (g_stateObj.scoreId > 0) {
-			scoreIdHeader = Number(g_stateObj.scoreId) + 1;
-		}
-
-		// 譜面データより初項、交差、フリーズ基本点を取得
-		if (g_rootObj.calc_data !== undefined && g_rootObj.calc_data !== "") {
-			const calcs = g_rootObj["calc" + scoreIdHeader + "_data"].split(",");
-			g_headerObj.calcFirstTerm = parseInt(calcs[0]);
-			g_headerObj.calcDifference = parseInt(calcs[1]);
-			g_headerObj.calcFreeze = parseInt(calcs[2]);
-		}
-	}
 }
 
 /**
@@ -193,6 +176,23 @@ function customLoadingInit() {
 	g_workObj.viewScore = 0;
 	// 実際のスコア - ドラムロール上のスコア
 	g_workObj.tempScore = 0;
+
+	// スコア機構
+	if (g_rootObj.scoreType === "Type2") {
+
+		let scoreIdHeader = "";
+		if (g_stateObj.scoreId > 0) {
+			scoreIdHeader = Number(g_stateObj.scoreId) + 1;
+		}
+
+		// 譜面データより初項、交差、フリーズ基本点を取得
+		if (g_rootObj.calc_data !== undefined && g_rootObj.calc_data !== "") {
+			const calcs = g_rootObj["calc" + scoreIdHeader + "_data"].split(",");
+			g_headerObj.calcFirstTerm = parseInt(calcs[0]);
+			g_headerObj.calcDifference = parseInt(calcs[1]);
+			g_headerObj.calcFreeze = parseInt(calcs[2]);
+		}
+	}
 }
 
 /**
