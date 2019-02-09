@@ -25,9 +25,7 @@
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = "sp-2";
-
-    g_headerObj.customReadyUse = `true`;
+    g_localVersion2 = "sp-1";
 }
 
 /**
@@ -64,7 +62,6 @@ function customLoadingInit2() {
  * メイン画面(初期表示) [Scene: Main / Banana]
  */
 function customMainInit2() {
-
 }
 
 /**
@@ -72,24 +69,69 @@ function customMainInit2() {
  */
 function customMainEnterFrame2() {
 
-    var frameNum = g_scoreObj.frameNum;
-    var preblankFrame = g_headerObj.blankFrame - g_headerObj.blankFrameDef + g_stateObj.adjustment;
-    var actualFrame = frameNum - preblankFrame;
+    const divRoot = document.getElementById(`divRoot`);
+    const keyCtrlPtn = `${g_keyObj.currentKey}_${g_keyObj.currentPtn}`;
+    const keyNum = g_keyObj[`chara${keyCtrlPtn}`].length;
 
-    if (actualFrame == 685) {
-        var lblReady2 = createDivLabel("lblReady2", g_sWidth / 2 - 100, g_sHeight / 2 - 75,
-            200, 50, 40, C_CLR_TITLE,
-            "<span style='color:" + g_headerObj["setColor"][0] + ";font-size:60px;'>R</span>EADY<span style='font-size:50px;'>?</span>");
-        divRoot.appendChild(lblReady2);
-        lblReady2.style.animationDuration = "2.5s";
-        lblReady2.style.animationName = "leftToRightFade";
-        lblReady2.style.opacity = 0;
+    const frameNum = g_scoreObj.frameNum;
+    const preblankFrame = g_headerObj.blankFrame - g_headerObj.blankFrameDef + g_stateObj.adjustment;
+    const actualFrame = frameNum - preblankFrame;
+
+    if (actualFrame === 16568) {
+        divRoot.style.opacity = 0;
+    } else if (actualFrame === 16612) {
+        divRoot.style.opacity = 1;
+        if (g_stateObj.scoreId === 0) {
+            for (var j = 0; j < keyNum; j++) {
+                if (g_keyObj[`color${keyCtrlPtn}`][j] === 3) {
+                    displayOutStep(j);
+                }
+            }
+        }
     }
+}
+
+function fadeOutStep(_pos) {
+    var step = document.getElementById("step" + _pos);
+    var nextAlpha = parseFloat(step.style.opacity) - 0.01;
+    step.style.opacity = nextAlpha;
+}
+
+function displayOutStep(_pos) {
+    var step = document.getElementById("step" + _pos);
+    step.style.opacity = 1;
+    step.style.display = "none";
+}
+
+function fadeInStep(_pos) {
+    var step = document.getElementById("step" + _pos);
+    var nextAlpha = parseFloat(step.style.opacity) + 0.01;
+    step.style.opacity = nextAlpha;
+}
+
+function displayInStep(_pos) {
+    var step = document.getElementById("step" + _pos);
+    step.style.opacity = 0;
+    if (g_stateObj.d_stepzone != C_FLG_OFF) {
+        step.style.display = "inherit";
+    }
+}
+
+function displayDefaultStep(_pos) {
+    var step = document.getElementById("step" + _pos);
+    step.style.opacity = 1;
+}
+
+function displayStartStep(_pos) {
+    var step = document.getElementById("step" + _pos);
+    step.style.opacity = 0.3;
 }
 
 /**
  * 結果画面(初期表示) [Scene: Result / Grape]
  */
+/*
 function customResultInit2() {
 
 }
+*/
