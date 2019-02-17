@@ -27,14 +27,18 @@
  * 	_event.total  読込総バイト数 
  */
 function customLoadingProgress(_event) {
-	const divRoot = document.querySelector(`#divRoot`);
-	const lblcustomLoadTitle = getTitleDivLabel(`lblLoadingTitle`,
-		`<span style=font-size:20px><span style=color:#6666ff;font-size:30px>D</span>ANCING
-	<span style=color:#ffff66;font-size:30px>☆</span>
-	<span style=color:#ff6666;font-size:30px>O</span>NIGIRI</span>`
-			.replace(/[\t\n]/g, ``), 5, 15);
-	lblcustomLoadTitle.style.textAlign = C_ALIGN_LEFT;
-	divRoot.appendChild(lblcustomLoadTitle);
+
+	let lblLoadingTitle;
+	if (document.querySelector(`#lblLoadingTitle`) === null) {
+		const divRoot = document.querySelector(`#divRoot`);
+		lblLoadingTitle = getTitleDivLabel(`lblLoadingTitle`,
+			`<span style=font-size:20px><span style=color:#6666ff;font-size:30px>D</span>ANCING
+			<span style=color:#ffff66;font-size:30px>☆</span>
+			<span style=color:#ff6666;font-size:30px>O</span>NIGIRI</span>`
+				.replace(/[\t\n]/g, ``), 5, 15);
+		lblLoadingTitle.style.textAlign = C_ALIGN_LEFT;
+		divRoot.appendChild(lblLoadingTitle);
+	}
 
 	if (_event.lengthComputable) {
 		const rate = _event.loaded / _event.total;
@@ -51,7 +55,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-6.0`;
+	g_localVersion = `ti-6.1`;
 
 	// デフォルトの曲名表示を利用しない場合は、下記をコメント化してください。
 	// もう一方のcustomファイルを使って再上書きも可能です。
