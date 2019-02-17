@@ -21,12 +21,37 @@
  */
 
 /**
+ * ローディング中処理
+ * @param {event} _event ローディングプロパティ
+ * 	_event.loaded 読込済バイト数
+ * 	_event.total  読込総バイト数 
+ */
+function customLoadingProgress(_event) {
+	const divRoot = document.querySelector(`#divRoot`);
+	const lblcustomLoadTitle = getTitleDivLabel(`lblLoadingTitle`,
+		`<span style=font-size:20px><span style=color:#6666ff;font-size:30px>D</span>ANCING
+	<span style=color:#ffff66;font-size:30px>☆</span>
+	<span style=color:#ff6666;font-size:30px>O</span>NIGIRI</span>`
+			.replace(/[\t\n]/g, ``), 5, 15);
+	lblcustomLoadTitle.style.textAlign = C_ALIGN_LEFT;
+	divRoot.appendChild(lblcustomLoadTitle);
+
+	if (_event.lengthComputable) {
+		const rate = _event.loaded / _event.total;
+		const layer0 = document.querySelector(`#layer0`);
+		const l0ctx = layer0.getContext(`2d`);
+		l0ctx.fillStyle = C_CLR_LOADING_BAR;
+		l0ctx.fillRect(layer0.width * (1 - rate), 0, layer0.width * rate, 10);
+	}
+}
+
+/**
  * タイトル画面 [Scene: Title / Melon]
  */
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-5.1`;
+	g_localVersion = `ti-6.0`;
 
 	// デフォルトの曲名表示を利用しない場合は、下記をコメント化してください。
 	// もう一方のcustomファイルを使って再上書きも可能です。
