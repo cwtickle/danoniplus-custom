@@ -23,7 +23,7 @@
  */
 function customTitleInit2() {
 	// バージョン表記
-	g_localVersion2 = "sp-2";
+	g_localVersion2 = "sp-3";
 
 	divRoot.style.opacity = 1;
 	g_stateObj.effect = "ON";
@@ -35,17 +35,17 @@ function customTitleInit2() {
 function customOptionInit2() {
 
 	// 演出ON/OFF
-	var lblEffect = createDivLabel("lblEffect", 300, g_sHeight - 225, 70, 30, 20, C_CLR_TITLE,
+	var lblEffect = createDivLabel("lblEffect", -80, -70, 70, 30, 18, C_CLR_TITLE,
 		"<span style='color:#99ff99'>E</span>ffect");
 	optionsprite.appendChild(lblEffect);
 	var lnkEffect = createButton({
 		id: "lnkEffect",
 		name: g_stateObj.effect,
-		x: 370,
-		y: g_sHeight - 225,
+		x: -70,
+		y: -45,
 		width: 100,
-		height: 30,
-		fontsize: 20,
+		height: 25,
+		fontsize: 18,
 		normalColor: C_CLR_LNK,
 		hoverColor: C_CLR_DEFAULT,
 		align: C_ALIGN_CENTER
