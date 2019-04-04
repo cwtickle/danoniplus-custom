@@ -55,16 +55,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-6.1`;
-
-	// デフォルトの曲名表示を利用しない場合は、下記をコメント化してください。
-	// もう一方のcustomファイルを使って再上書きも可能です。
-
-	g_headerObj.customTitleUse = `false`;
-	g_headerObj.customTitleArrowUse = `false`;
-	g_headerObj.customBackUse = `false`;
-	g_headerObj.customBackMainUse = `false`;
-	g_headerObj.customReadyUse = `false`;
+	g_localVersion = `ti-6.2`;
 
 	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl === location.href) {

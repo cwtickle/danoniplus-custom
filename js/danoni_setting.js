@@ -16,10 +16,10 @@ const g_presetTuningUrl = `http://cw7.sakura.ne.jp/`;
 
 // ゲージ設定（デフォルト）
 const g_presetGauge = {
-	Border: 70,  // ノルマ制でのボーダーライン、ライフ制にしたい場合は `x` を指定
-	Recovery: 2, // 回復量
-	Damage: 7,   // ダメージ量
-	Init: 25,    // 初期値
+	//	Border: 70,  // ノルマ制でのボーダーライン、ライフ制にしたい場合は `x` を指定
+	//	Recovery: 2, // 回復量
+	//	Damage: 7,   // ダメージ量
+	//	Init: 25,    // 初期値
 };
 
 // ゲージ設定（デフォルト以外）
@@ -37,6 +37,16 @@ const g_presetGaugeCustom = {
 		Init: 100,
 	},
 };
+
+// デフォルトのデザインを使用せず、独自のデザインを使用するかを指定
+// カスタムデザインにする場合は `true` を指定
+const g_presetCustomDesignUse = {
+	title: `false`,
+	titleArrow: `false`,
+	back: `false`,
+	backMain: `false`,
+	ready: `false`,
+}
 
 // オプション利用設定（デフォルト）
 // 一律使用させたくない場合は `false` を指定（デフォルトは `true`）
