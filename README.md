@@ -10,7 +10,7 @@
 |----|----|----|----|
 |(Common)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom.js)|―|各画面タイトル文字モーション、ロード画面表示、<br>独自スコア算出、スコアドラムロール|
 |[#0039 : Genic Trip](http://cw7.sakura.ne.jp/danoni/2006/0039_GenicTrip.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0039.js)|[html](https://github.com/cwtickle/danoniplus-custom/blob/master/danoni/0039_GenicTrip.html)|開始のReadyタイミングが独自 (通常のタイミングと異なる)|
-|[#0075 : FLY!!](http://cw7.sakura.ne.jp/danoni/2007/0075_GenicTrip.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0075.js)|html|タイトル画面|
+|[#0075 : FLY!!](http://cw7.sakura.ne.jp/danoni/2007/0075_FLY.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0075.js)|html|タイトル画面|
 |[#0098B : Overslept](http://cw7.sakura.ne.jp/danoni/2018/0098B_Overslept.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0098B.js)|html|スクロール変化|
 |[#0102 : Real Doubt](http://cw7.sakura.ne.jp/danoni/2008/0102_RealDoubt.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0102.js)|html|ロード画面|
 |[#0166 : EXODUS on vocal ver.](http://cw7.sakura.ne.jp/danoni/2009/0166_ExodusVocal.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0166.js)|html|キー数変化|
