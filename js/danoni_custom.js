@@ -39,14 +39,6 @@ function customLoadingProgress(_event) {
 		lblLoadingTitle.style.textAlign = C_ALIGN_LEFT;
 		divRoot.appendChild(lblLoadingTitle);
 	}
-
-	if (_event.lengthComputable) {
-		const rate = _event.loaded / _event.total;
-		const layer0 = document.querySelector(`#layer0`);
-		const l0ctx = layer0.getContext(`2d`);
-		l0ctx.fillStyle = C_CLR_LOADING_BAR;
-		l0ctx.fillRect(layer0.width * (1 - rate), 0, layer0.width * rate, 10);
-	}
 }
 
 /**
@@ -55,7 +47,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-6.2`;
+	g_localVersion = `ti-6.3`;
 
 	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl === location.href) {
