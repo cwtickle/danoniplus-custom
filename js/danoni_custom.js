@@ -20,6 +20,9 @@
  * 　画面遷移したときにきれいに消してくれます。
  */
 
+g_headerObj.keyRetryDef = g_headerObj.keyRetry;
+g_headerObj.keyTitleBackDef = g_headerObj.keyTitleBack;
+
 /**
  * ローディング中処理
  * @param {event} _event ローディングプロパティ
@@ -47,7 +50,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-6.3`;
+	g_localVersion = `ti-7.1`;
 
 	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl === location.href) {
@@ -81,6 +84,19 @@ function customOptionInit() {
 	const lblTitle = document.getElementById(`lblTitle`);
 	lblTitle.style.animationDuration = `1.5s`;
 	lblTitle.style.animationName = `upToDown`;
+}
+
+/**
+ * 譜面選択(Difficultyボタン)時カスタム処理
+ * @param {boolean} _initFlg 譜面変更フラグ (true:譜面変更選択時 / false:画面遷移による移動時)
+ * @param {boolean} _canLoadDifInfoFlg 譜面初期化フラグ (true:譜面設定を再読込 / false:譜面設定を引き継ぐ)
+ */
+function customSetDifficulty(_initFlg, _canLoadDifInfoFlg) {
+	if (g_keyObj.currentKey === `8`) {
+		g_headerObj.keyRetry = 9;
+	} else {
+		g_headerObj.keyRetry = g_headerObj.keyRetryDef;
+	}
 }
 
 /**
