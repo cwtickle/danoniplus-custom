@@ -20,9 +20,6 @@
  * 　画面遷移したときにきれいに消してくれます。
  */
 
-g_headerObj.keyRetryDef = g_headerObj.keyRetry;
-g_headerObj.keyTitleBackDef = g_headerObj.keyTitleBack;
-
 /**
  * ローディング中処理
  * @param {event} _event ローディングプロパティ
@@ -50,7 +47,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-7.1`;
+	g_localVersion = `ti-7.2`;
 
 	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl === location.href) {
@@ -92,11 +89,7 @@ function customOptionInit() {
  * @param {boolean} _canLoadDifInfoFlg 譜面初期化フラグ (true:譜面設定を再読込 / false:譜面設定を引き継ぐ)
  */
 function customSetDifficulty(_initFlg, _canLoadDifInfoFlg) {
-	if (g_keyObj.currentKey === `8`) {
-		g_headerObj.keyRetry = 9;
-	} else {
-		g_headerObj.keyRetry = g_headerObj.keyRetryDef;
-	}
+
 }
 
 /**
