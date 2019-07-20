@@ -25,7 +25,7 @@
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = "sp-3";
+    g_localVersion2 = "sp-4";
 }
 
 /**
@@ -70,10 +70,10 @@ function customMainInit2() {
     var actualFrame = frameNum - preblankFrame;
 
     if (actualFrame < 864) {
-        displayStartStep(0);
-        displayStartStep(1);
-        displayStartStep(5);
-        displayStartStep(6);
+        displayStartStep(g_workObj.replaceNums[0]);
+        displayStartStep(g_workObj.replaceNums[1]);
+        displayStartStep(g_workObj.replaceNums[5]);
+        displayStartStep(g_workObj.replaceNums[6]);
     }
 }
 
@@ -91,15 +91,15 @@ function customMainEnterFrame2() {
 
     if (actualFrame < 864) {
     } else if (actualFrame < 934) {
-        fadeInStep(0);
-        fadeInStep(1);
-        fadeInStep(5);
-        fadeInStep(6);
+        fadeInStep(g_workObj.replaceNums[0]);
+        fadeInStep(g_workObj.replaceNums[1]);
+        fadeInStep(g_workObj.replaceNums[5]);
+        fadeInStep(g_workObj.replaceNums[6]);
     } else if (actualFrame === 934) {
-        displayDefaultStep(0);
-        displayDefaultStep(1);
-        displayDefaultStep(5);
-        displayDefaultStep(6);
+        displayDefaultStep(g_workObj.replaceNums[0]);
+        displayDefaultStep(g_workObj.replaceNums[1]);
+        displayDefaultStep(g_workObj.replaceNums[5]);
+        displayDefaultStep(g_workObj.replaceNums[6]);
     } else if (actualFrame === 12106) {
         for (var j = 0; j < keyNum; j++) {
             displayStartStep(j);
