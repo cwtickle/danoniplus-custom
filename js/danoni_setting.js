@@ -6,13 +6,16 @@
  * 譜面データ側で個別に同様の項目が設定されている場合は、譜面データ側の設定が優先されます。
  * 例えばこのファイルで g_presetTuning = `onigiri` とすると全ての作品に製作者名として「onigiri」が設定されますが、
  * 譜面データ側で |tuning=washoi| とするとその作品には製作者名として「washoi」が設定されます。
+ * 
+ * Revised: 2019/11/20
+ * Local Version: 0.3.0
  */
 
 // 譜面製作者名
 const g_presetTuning = `ティックル`;
 
 // 譜面製作者URL
-const g_presetTuningUrl = `http://cw7.sakura.ne.jp/`;
+const g_presetTuningUrl = `https://cw7.sakura.ne.jp/`;
 
 // ゲージ設定（デフォルト）
 const g_presetGauge = {
@@ -36,6 +39,24 @@ const g_presetGaugeCustom = {
 		Damage: 50,
 		Init: 100,
 	},
+	NoRecovery: {
+		Border: `x`,
+		Recovery: 0,
+		Damage: 50,
+		Init: 100,
+	},
+	SuddenDeath: {
+		Border: `x`,
+		Recovery: 0,
+		Damage: setVal(g_rootObj.maxLifeVal, C_VAL_MAXLIFE, C_TYP_FLOAT),
+		Init: 100,
+	},
+	Practice: {
+		Border: `x`,
+		Recovery: 0,
+		Damage: 0,
+		Init: 50,
+	}
 };
 
 // デフォルトのデザインを使用せず、独自のデザインを使用するかを指定
@@ -52,9 +73,11 @@ const g_presetCustomDesignUse = {
 // 一律使用させたくない場合は `false` を指定（デフォルトは `true`）
 const g_presetSettingUse = {
 	motion: `true`,
+	scroll: `true`,
 	shuffle: `true`,
 	autoPlay: `true`,
-	gauge: `true`
+	gauge: `true`,
+	appearance: `true`,
 };
 
 g_presetFrzStartjdgUse = `false`;
@@ -62,6 +85,8 @@ g_presetFrzStartjdgUse = `false`;
 // 7key用のキーコン設定
 // 1: Cross, 2: Split, 3: Alternate, 4:Twist, 5:Asymmetry
 // transKeyを定義しているため、演出によりこれらを使わせたくない作品には |transKeyUse=false| を使用する。
+/*
+v10.2.0のスクロール拡張により不要になったため削除
 g_keyObj.chara7_1 = [`left`, `leftdia`, `rightdia`, `right`, `down`, `space`, `up`];
 g_keyObj.chara7_2 = [`left`, `leftdia`, `down`, `space`, `up`, `rightdia`, `right`];
 g_keyObj.chara7_3 = [`left`, `down`, `up`, `right`, `leftdia`, `space`, `rightdia`];
@@ -115,6 +140,7 @@ g_keyObj.transKey7_2 = `Split`;
 g_keyObj.transKey7_3 = `Alternate`;
 g_keyObj.transKey7_4 = `Twist`;
 g_keyObj.transKey7_5 = `Asymmetry`;
+*/
 
 // 作品個別に定義する場合は下記と同じ
 /*

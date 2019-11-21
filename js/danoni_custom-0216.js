@@ -17,15 +17,15 @@
  * 　画面遷移したときにきれいに消してくれます。
  */
 
-let g_tmpCnt1 = 0;
-let g_tmpCnt2 = 0;
+var g_tmpCnt1 = 0;
+var g_tmpCnt2 = 0;
 
 /**
  * タイトル画面 [Scene: Title / Melon]
  */
 function customTitleInit2() {
 	// バージョン表記
-	g_localVersion2 = `sp-1`;
+	g_localVersion2 = `sp-4`;
 	document.body.style.backgroundColor = "#110011";
 }
 
@@ -82,21 +82,27 @@ function customMainInit2() {
 
 		if (g_keyObj[`color${keyCtrlPtn}`][j] === 3) {
 
-			const step = document.querySelector(`#step${j}`);
+			const step = document.querySelector(`#stepRoot${j}`);
 			g_workObj.stepX[j] += 55;
 			step.style.left = `${g_workObj.stepX[j]}px`;
 
-			const stepHit = document.querySelector(`#stepHit${j}`);
-			stepHit.style.left = `${parseFloat(g_workObj.stepX[j] - 15)}px`;
+			//const stepHit = document.querySelector(`#stepHit${j}`);
+			//stepHit.style.left = `${parseFloat(g_workObj.stepX[j] - 15)}px`;
+
+			const frzHit = document.querySelector(`#frzHit${j}`);
+			frzHit.style.left = `${g_workObj.stepX[j]}px`;
 
 		} else if (g_keyObj[`color${keyCtrlPtn}`][j] === 4) {
 
-			const step = document.querySelector(`#step${j}`);
+			const step = document.querySelector(`#stepRoot${j}`);
 			g_workObj.stepX[j] -= 55;
 			step.style.left = `${g_workObj.stepX[j]}px`;
 
-			const stepHit = document.querySelector(`#stepHit${j}`);
-			stepHit.style.left = `${parseFloat(g_workObj.stepX[j] - 15)}px`;
+			//const stepHit = document.querySelector(`#stepHit${j}`);
+			//stepHit.style.left = `${parseFloat(g_workObj.stepX[j] - 15)}px`;
+
+			const frzHit = document.querySelector(`#frzHit${j}`);
+			frzHit.style.left = `${g_workObj.stepX[j]}px`;
 		}
 	}
 
@@ -104,8 +110,10 @@ function customMainInit2() {
 		// 7key
 		for (var j = 0; j < keyNum; j++) {
 
+			const stepRoot = document.querySelector(`#stepRoot${j}`);
 			const step = document.querySelector(`#step${j}`);
 			const stepHit = document.querySelector(`#stepHit${j}`);
+			const frzHit = document.querySelector(`#frzHit${j}`);
 
 			if (g_keyObj[`color${keyCtrlPtn}`][j] >= 3) {
 				// 11key, 11Lkeyの上段を隠す
@@ -117,8 +125,9 @@ function customMainInit2() {
 				g_workObj.dividePos[j] = (g_workObj.dividePos[j] === 0 ? 1 : 0);
 				g_workObj.scrollDir[j] = (g_workObj.scrollDir[j] === 1 ? -1 : 1);
 
-				step.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j])}px`;
-				stepHit.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j] - 15)}px`;
+				stepRoot.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j])}px`;
+				//stepHit.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j] - 15)}px`;
+				frzHit.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j])}px`;
 			}
 		}
 
@@ -126,7 +135,7 @@ function customMainInit2() {
 		// 11Lkey
 		for (var j = 0; j < keyNum; j++) {
 
-			const step = document.querySelector(`#step${j}`);
+			const step = document.querySelector(`#stepRoot${j}`);
 			const stepHit = document.querySelector(`#stepHit${j}`);
 
 			if (g_keyObj[`color${keyCtrlPtn}`][j] === 4) {
@@ -143,7 +152,7 @@ function customMainInit2() {
 		// 11Lkey
 		for (var j = 0; j < keyNum; j++) {
 
-			const step = document.querySelector(`#step${j}`);
+			const step = document.querySelector(`#stepRoot${j}`);
 			const stepHit = document.querySelector(`#stepHit${j}`);
 
 			if (g_keyObj[`color${keyCtrlPtn}`][j] === 4) {
@@ -157,7 +166,7 @@ function customMainInit2() {
 		// 11key
 		for (var j = 0; j < keyNum; j++) {
 
-			const step = document.querySelector(`#step${j}`);
+			const step = document.querySelector(`#stepRoot${j}`);
 			const stepHit = document.querySelector(`#stepHit${j}`);
 
 			if (g_keyObj[`color${keyCtrlPtn}`][j] === 3) {
@@ -170,7 +179,7 @@ function customMainInit2() {
 		// 11Lkey
 		for (var j = 0; j < keyNum; j++) {
 
-			const step = document.querySelector(`#step${j}`);
+			const step = document.querySelector(`#stepRoot${j}`);
 			const stepHit = document.querySelector(`#stepHit${j}`);
 
 			if (g_keyObj[`color${keyCtrlPtn}`][j] === 4) {
@@ -214,10 +223,12 @@ function customMainEnterFrame2() {
 
 			// 7key部の半分を下段へ移動
 			for (let j = 8; j <= 11; j++) {
-				const step = document.querySelector(`#step${j}`);
-				const stepHit = document.querySelector(`#stepHit${j}`);
+				const step = document.querySelector(`#stepRoot${j}`);
+				//const stepHit = document.querySelector(`#stepHit${j}`);
+				const frzHit = document.querySelector(`#frzHit${j}`);
 				step.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j])}px`;
-				stepHit.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j] - 15)}px`;
+				//stepHit.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j] - 15)}px`;
+				frzHit.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j])}px`;
 			}
 
 			// 7key部の残りの矢印のスクロール方向を反転
@@ -231,10 +242,10 @@ function customMainEnterFrame2() {
 
 			// 7key部の残りを下段へ移動
 			for (let j = 12; j <= 14; j++) {
-				const step = document.querySelector(`#step${j}`);
-				const stepHit = document.querySelector(`#stepHit${j}`);
+				const step = document.querySelector(`#stepRoot${j}`);
+				//const stepHit = document.querySelector(`#stepHit${j}`);
 				step.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j])}px`;
-				stepHit.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j] - 15)}px`;
+				//stepHit.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j] - 15)}px`;
 			}
 
 			// 11Lkey上段をうっすら表示
@@ -248,6 +259,11 @@ function customMainEnterFrame2() {
 						stepHit.style.display = `inherit`;
 					}
 				}
+			}
+		} else if (actualFrame === 3000) {
+			for (let j = 12; j <= 14; j++) {
+				const frzHit = document.querySelector(`#frzHit${j}`);
+				frzHit.style.top = `${(g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j])}px`;
 			}
 		} else if (actualFrame < 4356) {
 		} else if (actualFrame === 4356) {
@@ -270,7 +286,7 @@ function customMainEnterFrame2() {
 		g_tmpCnt1++;
 		for (var j = 0; j < keyNum; j++) {
 			if (g_keyObj[`color${keyCtrlPtn}`][j] === 3) {
-				const step = document.querySelector(`#step${j}`);
+				const step = document.querySelector(`#stepRoot${j}`);
 				step.style.left = `${parseFloat(step.style.left) + 0.1375 * (41 - g_tmpCnt1)}px`;
 			}
 		}
@@ -281,8 +297,10 @@ function customMainEnterFrame2() {
 
 		// 11key上段を表示、11Lkey上段は非表示にして元の位置に戻す
 		for (var j = 0; j < keyNum; j++) {
+			const stepRoot = document.querySelector(`#stepRoot${j}`);
 			const step = document.querySelector(`#step${j}`);
 			const stepHit = document.querySelector(`#stepHit${j}`);
+			const frzHit = document.querySelector(`#frzHit${j}`);
 
 			if (g_keyObj[`color${keyCtrlPtn}`][j] === 4) {
 				if (g_stateObj.d_stepzone != C_FLG_OFF) {
@@ -291,8 +309,10 @@ function customMainEnterFrame2() {
 				}
 
 			} else if (g_keyObj[`color${keyCtrlPtn}`][j] === 3) {
-				step.style.left = `${g_workObj.stepX[j]}px`;
-				stepHit.style.left = `${parseFloat(g_workObj.stepX[j] - 15)}px`;
+				stepRoot.style.left = `${g_workObj.stepX[j]}px`;
+				//step.style.left = `${g_workObj.stepX[j]}px`;
+				//stepHit.style.left = `${parseFloat(g_workObj.stepX[j] - 15)}px`;
+				frzHit.style.left = `${g_workObj.stepX[j]}px`;
 
 				step.style.display = `none`;
 				stepHit.style.display = `none`;
