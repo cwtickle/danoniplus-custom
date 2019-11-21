@@ -17,15 +17,15 @@
  * 　画面遷移したときにきれいに消してくれます。
  */
 
-let g_tmpCnt1 = 0;
-let g_tmpCnt2 = 0;
+var g_tmpCnt1 = 0;
+var g_tmpCnt2 = 0;
 
 /**
  * タイトル画面 [Scene: Title / Melon]
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = `sp-1`;
+    g_localVersion2 = `sp-2`;
 }
 
 
@@ -79,14 +79,17 @@ function customMainInit2() {
         for (var j = 0; j < keyNum; j++) {
 
             const step = document.querySelector(`#step${j}`);
+            const stepDiv = document.querySelector(`#stepDiv${j}`);
             const stepHit = document.querySelector(`#stepHit${j}`);
 
             if (g_keyObj[`color${keyCtrlPtn}`][j] <= 2) {
                 // 7keyを隠す
                 step.style.display = `none`;
+                stepDiv.style.opacity = 0;
                 stepHit.style.display = `none`;
-            } else if (g_stateObj.d_stepzone != C_FLG_OFF) {
+            } else if (g_stateObj.d_stepzone !== C_FLG_OFF && g_stateObj.scroll !== `Flat`) {
                 step.style.display = `inherit`;
+                stepDiv.style.opacity = 1;
                 stepHit.style.display = `inherit`;
             }
         }
@@ -96,14 +99,17 @@ function customMainInit2() {
         for (var j = 0; j < keyNum; j++) {
 
             const step = document.querySelector(`#step${j}`);
+            const stepDiv = document.querySelector(`#stepDiv${j}`);
             const stepHit = document.querySelector(`#stepHit${j}`);
 
             if (g_keyObj[`color${keyCtrlPtn}`][j] >= 3) {
                 // 5keyを隠す
                 step.style.display = `none`;
+                stepDiv.style.opacity = 0;
                 stepHit.style.display = `none`;
-            } else if (g_stateObj.d_stepzone != C_FLG_OFF) {
+            } else if (g_stateObj.d_stepzone !== C_FLG_OFF && g_stateObj.scroll !== `Flat`) {
                 step.style.display = `inherit`;
+                stepDiv.style.opacity = 1;
                 stepHit.style.display = `inherit`;
             }
         }
@@ -113,14 +119,17 @@ function customMainInit2() {
         for (var j = 0; j < keyNum; j++) {
 
             const step = document.querySelector(`#step${j}`);
+            const stepDiv = document.querySelector(`#stepDiv${j}`);
             const stepHit = document.querySelector(`#stepHit${j}`);
 
             if (g_keyObj[`color${keyCtrlPtn}`][j] <= 2) {
                 // 7keyを隠す
                 step.style.display = `none`;
+                stepDiv.style.opacity = 0;
                 stepHit.style.display = `none`;
-            } else if (g_stateObj.d_stepzone != C_FLG_OFF) {
+            } else if (g_stateObj.d_stepzone !== C_FLG_OFF && g_stateObj.scroll !== `Flat`) {
                 step.style.display = `inherit`;
+                stepDiv.style.opacity = 1;
                 stepHit.style.display = `inherit`;
             }
         }
@@ -130,13 +139,16 @@ function customMainInit2() {
         for (var j = 0; j < keyNum; j++) {
 
             const step = document.querySelector(`#step${j}`);
+            const stepDiv = document.querySelector(`#stepDiv${j}`);
             const stepHit = document.querySelector(`#stepHit${j}`);
 
             if (j <= 4 || j >= 8) {
                 step.style.display = `none`;
+                stepDiv.style.opacity = 0;
                 stepHit.style.display = `none`;
-            } else if (g_stateObj.d_stepzone != C_FLG_OFF) {
+            } else if (g_stateObj.d_stepzone !== C_FLG_OFF && g_stateObj.scroll !== `Flat`) {
                 step.style.display = `inherit`;
+                stepDiv.style.display = `inherit`;
                 stepHit.style.display = `inherit`;
             }
         }
@@ -145,13 +157,16 @@ function customMainInit2() {
         for (var j = 0; j < keyNum; j++) {
 
             const step = document.querySelector(`#step${j}`);
+            const stepDiv = document.querySelector(`#stepDiv${j}`);
             const stepHit = document.querySelector(`#stepHit${j}`);
 
             if (g_keyObj[`color${keyCtrlPtn}`][j] === 3) {
                 step.style.display = `none`;
+                stepDiv.style.opacity = 0;
                 stepHit.style.display = `none`;
-            } else if (g_stateObj.d_stepzone != C_FLG_OFF) {
+            } else if (g_stateObj.d_stepzone !== C_FLG_OFF && g_stateObj.scroll !== `Flat`) {
                 step.style.display = `inherit`;
+                stepDiv.style.opacity = 1;
                 stepHit.style.display = `inherit`;
             }
         }
@@ -160,13 +175,16 @@ function customMainInit2() {
         for (var j = 0; j < keyNum; j++) {
 
             const step = document.querySelector(`#step${j}`);
+            const stepDiv = document.querySelector(`#stepDiv${j}`);
             const stepHit = document.querySelector(`#stepHit${j}`);
 
             if (g_keyObj[`color${keyCtrlPtn}`][j] <= 2) {
                 step.style.display = `none`;
+                stepDiv.style.opacity = 0;
                 stepHit.style.display = `none`;
-            } else if (g_stateObj.d_stepzone != C_FLG_OFF) {
+            } else if (g_stateObj.d_stepzone !== C_FLG_OFF && g_stateObj.scroll !== `Flat`) {
                 step.style.display = `inherit`;
+                stepDiv.style.opacity = 1;
                 stepHit.style.display = `inherit`;
             }
         }
@@ -176,10 +194,12 @@ function customMainInit2() {
         for (var j = 0; j < keyNum; j++) {
 
             const step = document.querySelector(`#step${j}`);
+            const stepDiv = document.querySelector(`#stepDiv${j}`);
             const stepHit = document.querySelector(`#stepHit${j}`);
 
             if (g_keyObj[`color${keyCtrlPtn}`][j] === 4) {
                 step.style.display = `none`;
+                stepDiv.style.opacity = 0;
                 stepHit.style.display = `none`;
             }
         }
@@ -279,6 +299,8 @@ function customMainEnterFrame2() {
         for (var j = 0; j < keyNum; j++) {
             if (j >= 5 && j <= 7) {
                 displayDefaultStep(j);
+            } else if (g_keyObj[`color${keyCtrlPtn}`][j] === 4) {
+                displayOutStep(j);
             }
         }
 
@@ -347,9 +369,11 @@ function fadeOutStep(_pos) {
 
 function displayOutStep(_pos) {
     const step = document.querySelector(`#step${_pos}`);
+    const stepDiv = document.querySelector(`#stepDiv${_pos}`);
     const stepHit = document.querySelector(`#stepHit${_pos}`);
     step.style.opacity = 1;
     step.style.display = "none";
+    stepDiv.style.opacity = 0;
     stepHit.style.display = "none";
 }
 
@@ -361,12 +385,14 @@ function fadeInStep(_pos) {
 
 function displayInStep(_pos) {
     const step = document.querySelector(`#step${_pos}`);
+    const stepDiv = document.querySelector(`#stepDiv${_pos}`);
     const stepHit = document.querySelector(`#stepHit${_pos}`);
     step.style.opacity = 0;
-    if (g_stateObj.d_stepzone != C_FLG_OFF) {
+    if (g_stateObj.d_stepzone !== C_FLG_OFF && g_stateObj.scroll !== `Flat`) {
         step.style.display = "inherit";
-        stepHit.style.display = "inherit";
     }
+    stepDiv.style.opacity = 1;
+    stepHit.style.display = "inherit";
 }
 
 function displayDefaultStep(_pos) {
