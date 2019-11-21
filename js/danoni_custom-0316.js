@@ -25,7 +25,7 @@
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = "sp-1";
+    g_localVersion2 = "sp-3";
     document.body.style.backgroundColor = "#111100";
 }
 
@@ -67,9 +67,9 @@ function customMainInit2() {
     var keyCtrlPtn = g_keyObj.currentKey + "_" + g_keyObj.currentPtn;
     var keyNum = g_keyObj["chara" + keyCtrlPtn].length;
 
-    var frameNum = g_scoreObj.frameNum;
-    var preblankFrame = g_headerObj.blankFrame - g_headerObj.blankFrameDef + g_stateObj.adjustment;
-    var actualFrame = frameNum - preblankFrame;
+    //var frameNum = g_scoreObj.frameNum;
+    //var preblankFrame = g_headerObj.blankFrame - g_headerObj.blankFrameDef + g_stateObj.adjustment;
+    var actualFrame = g_scoreObj.baseFrame;
 
     document.body.style.backgroundColor = "#111100";
 
@@ -101,9 +101,10 @@ function customMainInit2() {
  * メイン画面(フレーム毎表示) [Scene: Main / Banana]
  */
 function customMainEnterFrame2() {
-    var frameNum = g_scoreObj.frameNum;
-    var preblankFrame = g_headerObj.blankFrame - g_headerObj.blankFrameDef + g_stateObj.adjustment;
-    var actualFrame = frameNum - preblankFrame;
+    //var frameNum = g_scoreObj.frameNum;
+    //var preblankFrame = g_headerObj.blankFrame - g_headerObj.blankFrameDef + g_stateObj.adjustment;
+    //var actualFrame = frameNum - preblankFrame;
+    var actualFrame = g_scoreObj.baseFrame;
     var keyCtrlPtn = g_keyObj.currentKey + "_" + g_keyObj.currentPtn;
     var keyNum = g_keyObj["chara" + keyCtrlPtn].length;
 
@@ -205,7 +206,7 @@ function fadeInStep(_pos) {
 function displayInStep(_pos) {
     var step = document.getElementById("step" + _pos);
     step.style.opacity = 0;
-    if (g_stateObj.d_stepzone != C_FLG_OFF) {
+    if (g_stateObj.d_stepzone != C_FLG_OFF && g_stateObj.scroll !== `Flat`) {
         step.style.display = "inherit";
     }
 }
