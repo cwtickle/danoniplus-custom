@@ -25,7 +25,7 @@ var g_tmpCnt2 = 0;
  */
 function customTitleInit2() {
 	// バージョン表記
-	g_localVersion2 = "sp-3";
+	g_localVersion2 = "sp-4";
 }
 
 
@@ -82,10 +82,11 @@ function customMainInit2() {
 		// 11key, 11Lkey, 11Fkeyはステップゾーン位置に共通性があるので、
 		// 一部の矢印を非表示化することで表現が可能。
 		for (var j = 0; j < keyNum; j++) {
-			if (g_keyObj["color" + keyCtrlPtn][j] == 4) {
-				var step = document.getElementById("stepRoot" + j);
+			if (g_keyObj["color" + keyCtrlPtn][j] === 4) {
+				var stepRoot = document.getElementById("stepRoot" + j);
+				var step = document.getElementById("step" + j);
 				g_workObj.stepX[j] -= 55;
-				step.style.left = g_workObj.stepX[j] + "px";
+				stepRoot.style.left = g_workObj.stepX[j] + "px";
 				if (actualFrame >= 7520 && actualFrame < 12879) {
 					step.style.display = "none";
 				}
@@ -100,9 +101,10 @@ function customMainInit2() {
 				frzHit.style.left = g_workObj.stepX[j] + "px";
 
 			} else if (g_keyObj["color" + keyCtrlPtn][j] === 3) {
-				var step = document.getElementById("stepRoot" + j);
+				var stepRoot = document.getElementById("stepRoot" + j);
+				var step = document.getElementById("step" + j);
 				g_workObj.stepX[j] += 55;
-				step.style.left = g_workObj.stepX[j] + "px";
+				stepRoot.style.left = g_workObj.stepX[j] + "px";
 				if (actualFrame < 7519) {
 					step.style.display = "none";
 				}
@@ -117,7 +119,7 @@ function customMainInit2() {
 				frzHit.style.left = g_workObj.stepX[j] + "px";
 
 			} else if (g_keyObj["color" + keyCtrlPtn][j] <= 2) {
-				var step = document.getElementById("stepRoot" + j);
+				var step = document.getElementById("step" + j);
 				step.style.opacity = 1;
 			}
 
@@ -140,7 +142,7 @@ function customMainInit2() {
 			//
 			// 矢印の決め打ちにならず、融通が利く（まとめて処理できる）のでできるだけこの方法を取る。
 			// 今回はステップゾーン個別処理があるため、後半は決め打ちになっている。
-			if (g_keyObj["color" + keyCtrlPtn][j] == 3) {
+			if (g_keyObj["color" + keyCtrlPtn][j] === 3) {
 				g_workObj.stepX[j] -= 27.5 * 1;
 
 				var step = document.getElementById("stepRoot" + j);
@@ -165,9 +167,9 @@ function customMainInit2() {
 			} else if (g_keyObj["color" + keyCtrlPtn][j] <= 1) {
 				displayOutStep(j);
 
-			} else if (g_keyObj["color" + keyCtrlPtn][j] == 2) {
-				g_workObj.dividePos[j] = (g_workObj.dividePos[j] == 0 ? 1 : 0);
-				g_workObj.scrollDir[j] = (g_workObj.scrollDir[j] == 1 ? -1 : 1);
+			} else if (g_keyObj["color" + keyCtrlPtn][j] === 2) {
+				g_workObj.dividePos[j] = (g_workObj.dividePos[j] === 0 ? 1 : 0);
+				g_workObj.scrollDir[j] = (g_workObj.scrollDir[j] === 1 ? -1 : 1);
 
 				var step = document.getElementById("stepRoot" + j);
 				step.style.top = (g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j]) + "px";
@@ -196,33 +198,33 @@ function customMainEnterFrame2() {
 
 			// 上段・右側4keyの矢印を回転しながら移動させる (11 → 11L)
 			g_tmpCnt1++;
-			var step4 = document.getElementById("stepRoot4");
-			step4.style.left = (parseFloat(step4.style.left) + 2.75) + "px";
+			var stepRoot4 = document.getElementById("stepRoot4");
+			stepRoot4.style.left = (parseFloat(stepRoot4.style.left) + 2.75) + "px";
 			var step4Rotate = g_keyObj["stepRtn" + keyCtrlPtn][4] + 9 * g_tmpCnt1;
-			step4.style.transform = "rotate(" + step4Rotate + "deg)";
+			stepRoot4.style.transform = "rotate(" + step4Rotate + "deg)";
 
-			var step5 = document.getElementById("stepRoot5");
-			step5.style.left = (parseFloat(step5.style.left) - 2.75) + "px";
+			var stepRoot5 = document.getElementById("stepRoot5");
+			stepRoot5.style.left = (parseFloat(stepRoot5.style.left) - 2.75) + "px";
 			var step5Rotate = g_keyObj["stepRtn" + keyCtrlPtn][5] + 9 * g_tmpCnt1;
-			step5.style.transform = "rotate(" + step5Rotate + "deg)";
+			stepRoot5.style.transform = "rotate(" + step5Rotate + "deg)";
 
-			var step6 = document.getElementById("stepRoot6");
-			step6.style.left = (parseFloat(step6.style.left) - 2.75 * 3) + "px";
+			var stepRoot6 = document.getElementById("stepRoot6");
+			stepRoot6.style.left = (parseFloat(stepRoot6.style.left) - 2.75 * 3) + "px";
 			var step6Rotate = g_keyObj["stepRtn" + keyCtrlPtn][6] + 9 * g_tmpCnt1;
-			step6.style.transform = "rotate(" + step6Rotate + "deg)";
+			stepRoot6.style.transform = "rotate(" + step6Rotate + "deg)";
 
-			var step7 = document.getElementById("stepRoot7");
-			step7.style.left = (parseFloat(step7.style.left) - 2.75 * 5) + "px";
+			var stepRoot7 = document.getElementById("stepRoot7");
+			stepRoot7.style.left = (parseFloat(stepRoot7.style.left) - 2.75 * 5) + "px";
 			var step7Rotate = g_keyObj["stepRtn" + keyCtrlPtn][7] + 9 * g_tmpCnt1;
-			step7.style.transform = "rotate(" + step7Rotate + "deg)";
+			stepRoot7.style.transform = "rotate(" + step7Rotate + "deg)";
 
-		} else if (actualFrame == 7540) {
+		} else if (actualFrame === 7540) {
 
 			// 11L への移動確定
 			// (移動完了の瞬間に、上段・右側4keyを非表示、上段・左側4keyを表示することで接続)
 			for (var j = 0; j < keyNum; j++) {
-				if (g_keyObj["color" + keyCtrlPtn][j] == 3) {
-					var step = document.getElementById("stepRoot" + j);
+				if (g_keyObj["color" + keyCtrlPtn][j] === 3) {
+					var step = document.getElementById("step" + j);
 					if (g_stateObj.d_stepzone != C_FLG_OFF) {
 						step.style.display = "inherit";
 					}
@@ -230,9 +232,10 @@ function customMainEnterFrame2() {
 					var stepHit = document.getElementById("stepHit" + j);
 					stepHit.style.display = "inherit";
 				}
-				if (g_keyObj["color" + keyCtrlPtn][j] == 4) {
-					var step = document.getElementById("stepRoot" + j);
-					step.style.left = g_workObj.stepX[j] + "px";
+				if (g_keyObj["color" + keyCtrlPtn][j] === 4) {
+					var stepRoot = document.getElementById("stepRoot" + j);
+					var step = document.getElementById("step" + j);
+					stepRoot.style.left = g_workObj.stepX[j] + "px";
 					step.style.display = "none";
 
 					var stepHit = document.getElementById("stepHit" + j);
@@ -244,61 +247,65 @@ function customMainEnterFrame2() {
 			}
 
 		} else if (actualFrame < 12879) {
-		} else if (actualFrame == 12879) {
+		} else if (actualFrame === 12879) {
 
 			// 上段・左側4keyの右半分を右側に持っていく処理
 			// 
 			// 実際にはこの時点で上段・左側4keyの右半分は非表示になっており、
 			// 上段・右側4keyの右半分を左側4keyに寄せている
-			var step2 = document.getElementById("stepRoot2");
+			var stepRoot2 = document.getElementById("stepRoot2");
+			var step2 = document.getElementById("step2");
 			step2.style.display = "none";
-			var step3 = document.getElementById("stepRoot3");
+			var stepRoot3 = document.getElementById("stepRoot3");
+			var step3 = document.getElementById("step3");
 			step3.style.display = "none";
 			var stepHit2 = document.getElementById("stepHit2");
 			stepHit2.style.display = "none";
 			var stepHit3 = document.getElementById("stepHit3");
 			stepHit3.style.display = "none";
 
-			var step6 = document.getElementById("stepRoot6");
-			step6.style.left = step2.style.left;
-			if (g_stateObj.d_stepzone != C_FLG_OFF) {
+			var stepRoot6 = document.getElementById("stepRoot6");
+			var step6 = document.getElementById("step6");
+			stepRoot6.style.left = stepRoot2.style.left;
+			if (g_stateObj.d_stepzone !== C_FLG_OFF) {
 				step6.style.display = "inherit";
 			}
-			var step7 = document.getElementById("stepRoot7");
-			step7.style.left = step3.style.left;
-			if (g_stateObj.d_stepzone != C_FLG_OFF) {
+			var stepRoot7 = document.getElementById("stepRoot7");
+			var step7 = document.getElementById("step7");
+			stepRoot7.style.left = stepRoot3.style.left;
+			if (g_stateObj.d_stepzone !== C_FLG_OFF) {
 				step7.style.display = "inherit";
 			}
 
 			var frzHit6 = document.getElementById("frzHit6");
-			frzHit6.style.left = step2.style.left;
+			frzHit6.style.left = stepRoot2.style.left;
 			var frzHit7 = document.getElementById("frzHit7");
-			frzHit7.style.left = step3.style.left;
+			frzHit7.style.left = stepRoot3.style.left;
 
 		} else if (actualFrame <= 12899) {
 
 			// 上段・右側4keyの右半分の矢印を回転しながら移動させる (11L → 11F)
 			// 見た目は左側4keyだが、上述の通りすでに右側4keyの右半分にすり替わっている。
 			g_tmpCnt2++;
-			var step6 = document.getElementById("stepRoot6");
-			step6.style.left = (parseFloat(step6.style.left) + 2.75 * 2) + "px";
+			var stepRoot6 = document.getElementById("stepRoot6");
+			stepRoot6.style.left = (parseFloat(stepRoot6.style.left) + 2.75 * 2) + "px";
 			var step6Rotate = 18 * g_tmpCnt2;
-			step6.style.transform = "rotate(" + step6Rotate + "deg)";
+			stepRoot6.style.transform = "rotate(" + step6Rotate + "deg)";
 
-			var step7 = document.getElementById("stepRoot7");
-			step7.style.left = (parseFloat(step7.style.left) + 2.75 * 2) + "px";
+			var stepRoot7 = document.getElementById("stepRoot7");
+			stepRoot7.style.left = (parseFloat(stepRoot7.style.left) + 2.75 * 2) + "px";
 			var step7Rotate = 18 * g_tmpCnt2;
-			step7.style.transform = "rotate(" + step7Rotate + "deg)";
+			stepRoot7.style.transform = "rotate(" + step7Rotate + "deg)";
 
-		} else if (actualFrame == 12900) {
+		} else if (actualFrame === 12900) {
 
 			// 11F への移動確定
-			var step6 = document.getElementById("stepRoot6");
-			step6.style.left = g_workObj.stepX[6] + "px";
-			step6.style.transform = "rotate(0deg)";
-			var step7 = document.getElementById("stepRoot7");
-			step7.style.left = g_workObj.stepX[7] + "px";
-			step7.style.transform = "rotate(0deg)";
+			var stepRoot6 = document.getElementById("stepRoot6");
+			stepRoot6.style.left = g_workObj.stepX[6] + "px";
+			stepRoot6.style.transform = "rotate(0deg)";
+			var stepRoot7 = document.getElementById("stepRoot7");
+			stepRoot7.style.left = g_workObj.stepX[7] + "px";
+			stepRoot7.style.transform = "rotate(0deg)";
 
 			var stepHit6 = document.getElementById("stepHit6");
 			stepHit6.style.display = "inherit";
@@ -317,7 +324,7 @@ function customMainEnterFrame2() {
 		}
 	} else if (actualFrame <= 13845) {
 		if (actualFrame < 13753) {
-		} else if (actualFrame == 13753) {
+		} else if (actualFrame === 13753) {
 
 			// 9key(仮)への移動のための準備
 			// 上段・右側4keyの左半分を元の矢印に戻す（先の回転で反転しているため）
@@ -340,28 +347,28 @@ function customMainEnterFrame2() {
 		} else if (actualFrame < 13767) {
 			fadeOutStep(8);
 
-		} else if (actualFrame == 13767) {
+		} else if (actualFrame === 13767) {
 			displayOutStep(8);
 			fadeOutStep(14);
 
 		} else if (actualFrame < 13780) {
 			fadeOutStep(14);
 
-		} else if (actualFrame == 13780) {
+		} else if (actualFrame === 13780) {
 			displayOutStep(14);
 			fadeOutStep(9);
 
 		} else if (actualFrame < 13793) {
 			fadeOutStep(9);
 
-		} else if (actualFrame == 13793) {
+		} else if (actualFrame === 13793) {
 			displayOutStep(9);
 			fadeOutStep(13);
 
 		} else if (actualFrame < 13806) {
 			fadeOutStep(13);
 
-		} else if (actualFrame == 13806) {
+		} else if (actualFrame === 13806) {
 			displayOutStep(13);
 			fadeOutStep(10);
 			fadeOutStep(12);
@@ -370,7 +377,7 @@ function customMainEnterFrame2() {
 			fadeOutStep(10);
 			fadeOutStep(12);
 
-		} else if (actualFrame == 13819) {
+		} else if (actualFrame === 13819) {
 			displayOutStep(10);
 			displayOutStep(12);
 			fadeOutStep(11);
@@ -405,7 +412,7 @@ function customMainEnterFrame2() {
 			var step7 = document.getElementById("stepRoot7");
 			step7.style.left = (parseFloat(step7.style.left) + 3) + "px";
 
-		} else if (actualFrame == 13845) {
+		} else if (actualFrame === 13845) {
 
 			// 上段の見えている矢印の移動確定
 			//
@@ -413,11 +420,11 @@ function customMainEnterFrame2() {
 			// おにぎりはスクロール反転させておき、表示に備える
 			displayOutStep(11);
 			for (var j = 0; j < keyNum; j++) {
-				if (g_keyObj["color" + keyCtrlPtn][j] == 3) {
+				if (g_keyObj["color" + keyCtrlPtn][j] === 3) {
 					g_workObj.stepX[j] -= 27.5 * 3;
 
-					var step = document.getElementById("stepRoot" + j);
-					step.style.left = g_workObj.stepX[j] + "px";
+					var stepRoot = document.getElementById("stepRoot" + j);
+					stepRoot.style.left = g_workObj.stepX[j] + "px";
 					var stepHit = document.getElementById("stepHit" + j);
 					//stepHit.style.left = (g_workObj.stepX[j] - 15) + "px";
 					stepHit.style.display = "inherit";
@@ -434,11 +441,11 @@ function customMainEnterFrame2() {
 						}
 					}
 
-				} else if (g_keyObj["color" + keyCtrlPtn][j] == 4) {
+				} else if (g_keyObj["color" + keyCtrlPtn][j] === 4) {
 					g_workObj.stepX[j] += 27.5 * 3;
 
-					var step = document.getElementById("stepRoot" + j);
-					step.style.left = g_workObj.stepX[j] + "px";
+					var stepRoot = document.getElementById("stepRoot" + j);
+					stepRoot.style.left = g_workObj.stepX[j] + "px";
 					var stepHit = document.getElementById("stepHit" + j);
 					//stepHit.style.left = (g_workObj.stepX[j] - 15) + "px";
 					stepHit.style.display = "inherit";
@@ -455,13 +462,13 @@ function customMainEnterFrame2() {
 						}
 					}
 
-				} else if (g_keyObj["color" + keyCtrlPtn][j] == 2) {
+				} else if (g_keyObj["color" + keyCtrlPtn][j] === 2) {
 
-					g_workObj.dividePos[j] = (g_workObj.dividePos[j] == 0 ? 1 : 0);
-					g_workObj.scrollDir[j] = (g_workObj.scrollDir[j] == 1 ? -1 : 1);
+					g_workObj.dividePos[j] = (g_workObj.dividePos[j] === 0 ? 1 : 0);
+					g_workObj.scrollDir[j] = (g_workObj.scrollDir[j] === 1 ? -1 : 1);
 
-					var step = document.getElementById("stepRoot" + j);
-					step.style.top = (g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j]) + "px";
+					var stepRoot = document.getElementById("stepRoot" + j);
+					stepRoot.style.top = (g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j]) + "px";
 					//var stepHit = document.getElementById("stepHit" + j);
 					//stepHit.style.top = (g_stepY + (g_distY - g_stepY - 50) * g_workObj.dividePos[j] - 15) + "px";
 					var frzHit = document.getElementById("frzHit" + j);
@@ -478,29 +485,32 @@ function customMainEnterFrame2() {
 		// 順番に沿ってステップゾーンを徐々に表示
 		if (actualFrame < 13859) {
 			fadeInStep(2);
-		} else if (actualFrame == 13859) {
+		} else if (actualFrame === 13859) {
 			displayDefaultStep(2);
 			fadeInStep(5);
+			console.log(document.querySelector(`#stepRoot2`).style.left);
+			console.log(document.querySelector(`#stepRoot5`).style.left);
+			console.log(document.querySelector(`#stepRoot2`).style.opacity);
 		} else if (actualFrame < 13872) {
 			fadeInStep(5);
-		} else if (actualFrame == 13872) {
+		} else if (actualFrame === 13872) {
 			displayDefaultStep(5);
 			fadeInStep(3);
 		} else if (actualFrame < 13885) {
 			fadeInStep(3);
-		} else if (actualFrame == 13885) {
+		} else if (actualFrame === 13885) {
 			displayDefaultStep(3);
 			fadeInStep(4);
 		} else if (actualFrame < 13898) {
 			fadeInStep(4);
-		} else if (actualFrame == 13898) {
+		} else if (actualFrame === 13898) {
 			displayDefaultStep(4);
 		} else if (actualFrame < 13911) {
-		} else if (actualFrame == 13911) {
+		} else if (actualFrame === 13911) {
 			displayInStep(11);
 		} else if (actualFrame < 13925) {
 			fadeInStep(11);
-		} else if (actualFrame == 13925) {
+		} else if (actualFrame === 13925) {
 			displayDefaultStep(11);
 		}
 	}
@@ -527,7 +537,7 @@ function fadeInStep(_pos) {
 function displayInStep(_pos) {
 	var step = document.getElementById("step" + _pos);
 	step.style.opacity = 0;
-	if (g_stateObj.d_stepzone != C_FLG_OFF) {
+	if (g_stateObj.d_stepzone !== C_FLG_OFF) {
 		step.style.display = "inherit";
 	}
 }
