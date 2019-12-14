@@ -23,37 +23,15 @@
  */
 function customTitleInit2() {
 	// バージョン表記
-	g_localVersion2 = "sp-4";
+	g_localVersion2 = "sp-5";
 
 	divRoot.style.opacity = 1;
-	g_stateObj.effect = "ON";
 }
 
 /**
  * オプション画面(初期表示) [Scene: Option / Lime]
  */
 function customOptionInit2() {
-
-	// 演出ON/OFF
-	var lblEffect = createDivLabel("lblEffect", -80, -60, 70, 30, 18, C_CLR_TITLE,
-		"<span style='color:#99ff99'>E</span>ffect");
-	optionsprite.appendChild(lblEffect);
-	var lnkEffect = createButton({
-		id: "lnkEffect",
-		name: g_stateObj.effect,
-		x: -70,
-		y: -40,
-		width: 100,
-		height: 25,
-		fontsize: 18,
-		normalColor: C_CLR_LNK,
-		hoverColor: C_CLR_DEFAULT,
-		align: C_ALIGN_CENTER
-	}, function () {
-		g_stateObj.effect = (g_stateObj.effect == "ON" ? "OFF" : "ON");
-		lnkEffect.innerHTML = g_stateObj.effect;
-	});
-	optionsprite.appendChild(lnkEffect);
 
 }
 
@@ -99,7 +77,7 @@ function customMainInit2() {
 		var tmpStep = document.getElementById("step" + j);
 		tmpStep.style.opacity = 1;
 	}
-	if (g_stateObj.effect == "ON" && actualFrame < 3828) {
+	if (g_stateObj.d_special == "ON" && actualFrame < 3828) {
 		for (var j = 0; j < keyNum; j++) {
 			var tmpStep = document.getElementById("step" + j);
 			if (g_keyObj["color" + keyCtrlPtn][j] <= 2) {
@@ -115,7 +93,7 @@ function customMainInit2() {
  */
 function customMainEnterFrame2() {
 
-	if (g_stateObj.effect == "ON") {
+	if (g_stateObj.d_special == "ON") {
 		var frameNum = g_scoreObj.frameNum;
 		var preblankFrame = g_headerObj.blankFrame - g_headerObj.blankFrameDef + g_stateObj.adjustment;
 		var actualFrame = frameNum - preblankFrame;
