@@ -47,7 +47,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-7.2`;
+	g_localVersion = `ti-7.3`;
 
 	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl === location.href) {
@@ -218,8 +218,8 @@ function customJudgeIi(difFrame) {
 		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
 		const absDifFrame = Math.abs(difFrame);
 		if (absDifFrame <= 5) {
-			g_resultObj.realScore += Math.floor(g_headerObj.calcFirstTerm +
-				g_headerObj.calcDifference * multi * g_headerObj.calcScoreRates[absDifFrame] / 100);
+			g_resultObj.realScore += Math.floor((g_headerObj.calcFirstTerm +
+				g_headerObj.calcDifference * multi) * g_headerObj.calcScoreRates[absDifFrame] / 100);
 		}
 	}
 }
@@ -230,8 +230,8 @@ function customJudgeShakin(difFrame) {
 		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
 		const absDifFrame = Math.abs(difFrame);
 		if (absDifFrame <= 5) {
-			g_resultObj.realScore += Math.floor(g_headerObj.calcFirstTerm +
-				g_headerObj.calcDifference * multi * g_headerObj.calcScoreRates[absDifFrame] / 100);
+			g_resultObj.realScore += Math.floor((g_headerObj.calcFirstTerm +
+				g_headerObj.calcDifference * multi) * g_headerObj.calcScoreRates[absDifFrame] / 100);
 		}
 	}
 }
@@ -242,8 +242,8 @@ function customJudgeMatari(difFrame) {
 		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
 		const absDifFrame = Math.abs(difFrame);
 		if (absDifFrame <= 5) {
-			g_resultObj.realScore += Math.floor(g_headerObj.calcFirstTerm +
-				g_headerObj.calcDifference * multi * g_headerObj.calcScoreRates[absDifFrame] / 100);
+			g_resultObj.realScore += Math.floor((g_headerObj.calcFirstTerm +
+				g_headerObj.calcDifference * multi) * g_headerObj.calcScoreRates[absDifFrame] / 100);
 		}
 	}
 }
