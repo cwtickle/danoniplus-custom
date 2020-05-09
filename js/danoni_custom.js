@@ -47,7 +47,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-7.3`;
+	g_localVersion = `ti-7.4`;
 
 	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl === location.href) {
@@ -56,10 +56,10 @@ function customTitleInit() {
 
 	// 楽曲タイトル、アーティスト名の自動反映（Thanks: MFV2さん)
 	if (document.getElementById(`musicTitle`) !== null) {
-		document.getElementById(`musicTitle`).innerText = g_headerObj.musicTitle;
+		document.getElementById(`musicTitle`).innerHTML = g_headerObj.musicTitle;
 	}
 	if (document.getElementById(`artistName`) !== null) {
-		document.getElementById(`artistName`).innerText = g_headerObj.artistName;
+		document.getElementById(`artistName`).innerHTML = g_headerObj.artistName;
 		document.getElementById(`artistName`).href = g_headerObj.artistUrl;
 	}
 
