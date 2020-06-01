@@ -9,7 +9,7 @@
 |作品名|対応js|html|変化点|
 |----|----|----|----|
 |(Common)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom.js)|―|各画面タイトル文字モーション、ロード画面表示、<br>独自スコア算出、スコアドラムロール|
-|[#0001 : positive 3rd[Short Edit]](https://cw7.sakura.ne.jp/danoni/2020/0001_Positive3rdShort_ev.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0001.js)<br>[skinjs](https://github.com/cwtickle/danoniplus-custom/blob/master/skin/danoni_skin_light-0001.js)|[html](https://github.com/cwtickle/danoniplus-custom/blob/master/danoni/0001_Positive3rdShort_ev.html)|白背景スキン、画面サイズ縮小、設定・画面リザルト改変、<br>コメントエリア作成|
+|[#0001 : positive 3rd[Short Edit]](https://cw7.sakura.ne.jp/danoni/2020/0001_Positive3rdShort_ev.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0001.js)<br>[skinjs](https://github.com/cwtickle/danoniplus-custom/blob/master/skin/danoni_skin_light-0001.js)|[html](https://github.com/cwtickle/danoniplus-custom/blob/master/danoni/0001_Positive3rdShort_ev.html)|白背景スキン、画面サイズ縮小、設定・リザルト画面改変、<br>コメントエリア作成|
 |[#0039 : Genic Trip](https://cw7.sakura.ne.jp/danoni/2006/0039_GenicTrip.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0039.js)|[html](https://github.com/cwtickle/danoniplus-custom/blob/master/danoni/0039_GenicTrip.html)|開始のReadyタイミングが独自 (通常のタイミングと異なる)|
 |[#0075 : FLY!!](https://cw7.sakura.ne.jp/danoni/2007/0075_FLY.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0075.js)|html|タイトル画面|
 |[#0098B : Overslept](https://cw7.sakura.ne.jp/danoni/2018/0098B_Overslept.html)|[js](https://github.com/cwtickle/danoniplus-custom/blob/master/js/danoni_custom-0098B.js)|html|スクロール変化|
