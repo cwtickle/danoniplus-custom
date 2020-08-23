@@ -486,15 +486,19 @@ function skinResultInit() {
             divRoot.appendChild(lbl);
 
             $id(`btnBack`).display = C_DIS_NONE;
+            $id(`btnCopy`).display = C_DIS_NONE;
             $id(`btnTweet`).display = C_DIS_NONE;
 
         } else {
             $id(`btnBack`).left = `125px`;
             $id(`btnBack`).width = `175px`;
             $id(`btnBack`).top = `375px`;
+            $id(`btnCopy`).left = `300px`;
+            $id(`btnCopy`).width = `175px`;
+            $id(`btnCopy`).top = `375px`;
             $id(`btnTweet`).left = `300px`;
             $id(`btnTweet`).width = `175px`;
-            $id(`btnTweet`).top = `375px`;
+            $id(`btnTweet`).top = `406.25px`;
             $id(`btnRetry`).display = C_DIS_NONE;
 
             let rankMark = ``;
