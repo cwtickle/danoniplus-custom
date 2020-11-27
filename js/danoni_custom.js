@@ -9,15 +9,7 @@
  * 　・楽曲タイトル、アーティスト名の自動反映
  * 　・Readyモーション
  * 　・背景設定
- * 
- * 設定例：
- * |customjs=danoni_custom-003.js|
- * 
- * ・グローバル変数、div要素、関数は danoni_main.js のものがそのまま利用できます。
- * ・danoni_main.jsの変数を直接書き換えると、動かなくなることがあります。
- * 　こまめのバックアップをおススメします。
- * ・ラベルなどのdiv要素を作る場合、「divRoot」の下にappendChild（div要素を追加）することで
- * 　画面遷移したときにきれいに消してくれます。
+ * 　・独自スコア計算式(Type2: izkdicさん方式, Type3: FUJIさん方式)
  */
 
 /**
@@ -47,7 +39,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-7.4`;
+	g_localVersion = `ti-8.0`;
 
 	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl === location.href) {
@@ -71,6 +63,11 @@ function customTitleInit() {
 	g_headerObj.calcFreeze = 0;
 	// 得点率 (誤差フレーム数毎に定義)
 	g_headerObj.calcScoreRates = [100, 99, 95, 80, 60, 30];
+
+	// スコア除数（Type3用）
+	g_headerObj.cutRate = 0;
+	// 基準コンボ数（Type3用）
+	g_headerObj.cutCombo = 0;
 }
 
 /**
@@ -126,6 +123,12 @@ function customLoadingInit() {
 	g_workObj.viewScore = 0;
 	// 実際のスコア - ドラムロール上のスコア
 	g_workObj.tempScore = 0;
+	// 桜点（Type3用）
+	g_workObj.sakuraScore = 0;
+
+	if (g_rootObj.scoreType === undefined) {
+		g_rootObj.scoreType = `Type1`;
+	}
 
 	// スコア機構
 	if (g_rootObj.scoreType === `Type2`) {
@@ -142,6 +145,15 @@ function customLoadingInit() {
 			g_headerObj.calcDifference = parseInt(calcs[1]);
 			g_headerObj.calcFreeze = parseInt(calcs[2]);
 		}
+
+	} else if (g_rootObj.scoreType === `Type3`) {
+		// 基準コンボ数は総ノート数÷10（小数以下切り捨て）
+		// 計算結果が1未満になった場合は1とする
+		g_headerObj.cutCombo = (g_fullArrows > 10) ? Math.floor(g_fullArrows / 10) : 1;
+
+		// スコア除数は総ノート数÷100
+		// 計算結果が1未満になった場合は1とする
+		g_headerObj.cutRate = (g_fullArrows > 100) ? g_fullArrows / 100 : 1.00;
 	}
 }
 
@@ -151,7 +163,7 @@ function customLoadingInit() {
 function customMainInit() {
 
 	// スコアドラムロール
-	if (g_rootObj.scoreType === `Type2`) {
+	if (g_rootObj.scoreType === `Type2` || g_rootObj.scoreType === `Type3`) {
 		const judgeSprite = document.getElementById(`judgeSprite`);
 		const lblScore = createDivLabel(`lblScore`, g_sWidth * 3 / 4, g_sHeight - 30, g_sWidth / 4 - 50, 30, 14, `#ffffff`,
 			`Score:`);
@@ -164,6 +176,11 @@ function customMainInit() {
 		lblScoreRoll.style.textAlign = C_ALIGN_RIGHT;
 		lblScoreRoll.style.fontFamily = C_LBL_BASICFONT;
 		judgeSprite.appendChild(lblScoreRoll);
+
+		if (g_stateObj.d_score === C_FLG_OFF) {
+			lblScore.style.visibility = `hidden`;
+			lblScoreRoll.style.visibility = `hidden`;
+		}
 	}
 }
 
@@ -173,7 +190,7 @@ function customMainInit() {
 function customMainEnterFrame() {
 
 	// スコアドラムロール
-	if (g_rootObj.scoreType === `Type2`) {
+	if (g_rootObj.scoreType === `Type2` || g_rootObj.scoreType === `Type3`) {
 		if (g_resultObj.realScore > g_workObj.viewScore) {
 			g_workObj.tempScore = g_resultObj.realScore - g_workObj.viewScore;
 			if (g_workObj.tempScore < 100) {
@@ -202,11 +219,55 @@ function customResultInit() {
 	lblTitle.style.animationName = `upToDown`;
 
 	// スコア計算
-	if (g_rootObj.scoreType === `Type2`) {
+	if (g_rootObj.scoreType === `Type2` || g_rootObj.scoreType === `Type3`) {
 		g_resultObj.score = g_resultObj.realScore;
 		document.getElementById(`lblScoreS`).innerHTML = g_resultObj.score;
 	}
 }
+
+/**
+ * スコア計算（回復判定）
+ */
+const calcArrowRcv = {
+	Type1: _ => { },
+	Type2: difFrame => {
+		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
+		const absDifFrame = Math.abs(difFrame);
+		if (absDifFrame <= 5) {
+			g_resultObj.realScore += Math.floor((g_headerObj.calcFirstTerm +
+				g_headerObj.calcDifference * multi) * g_headerObj.calcScoreRates[absDifFrame] / 100);
+		}
+	},
+	Type3: (difFrame, rate = 0, plus = 0) => {
+		let coeff;
+		if (g_resultObj.combo > g_headerObj.cutCombo) {
+			coeff = 2 + (g_resultObj.combo - g_headerObj.cutCombo) / g_headerObj.cutCombo / 6;
+		}
+		else {
+			coeff = 1 + g_resultObj.combo / g_headerObj.cutCombo;
+		}
+
+		// スコア更新
+		g_resultObj.realScore += Math.floor(coeff * rate * (100 + g_workObj.sakuraScore * 4 / g_headerObj.cutRate));
+		// 桜点更新
+		g_workObj.sakuraScore += plus;
+	},
+};
+
+/**
+ * スコア計算（ダメージ判定）
+ */
+const calcArrowDmg = {
+	Type1: _ => { },
+	Type2: _ => { },
+	Type3: sakuraDif => {
+		// 桜点更新、0未満になったら0にする
+		g_workObj.sakuraScore -= sakuraDif;
+		if (g_workObj.sakuraScore < 0) {
+			g_workObj.sakuraScore = 0;
+		}
+	},
+};
 
 /**
  * 判定カスタム処理 (引数は共通で1つ保持)
@@ -214,58 +275,39 @@ function customResultInit() {
  */
 // イイ
 function customJudgeIi(difFrame) {
-	if (g_rootObj.scoreType === `Type2`) {
-		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
-		const absDifFrame = Math.abs(difFrame);
-		if (absDifFrame <= 5) {
-			g_resultObj.realScore += Math.floor((g_headerObj.calcFirstTerm +
-				g_headerObj.calcDifference * multi) * g_headerObj.calcScoreRates[absDifFrame] / 100);
-		}
-	}
+	calcArrowRcv[g_rootObj.scoreType](difFrame, 1, 5);
 }
 
 // シャキン
 function customJudgeShakin(difFrame) {
-	if (g_rootObj.scoreType === `Type2`) {
-		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
-		const absDifFrame = Math.abs(difFrame);
-		if (absDifFrame <= 5) {
-			g_resultObj.realScore += Math.floor((g_headerObj.calcFirstTerm +
-				g_headerObj.calcDifference * multi) * g_headerObj.calcScoreRates[absDifFrame] / 100);
-		}
-	}
+	calcArrowRcv[g_rootObj.scoreType](difFrame, 0.8, 4);
 }
 
 // マターリ
 function customJudgeMatari(difFrame) {
-	if (g_rootObj.scoreType === `Type2`) {
-		const multi = (g_resultObj.combo > 100 ? 100 : g_resultObj.combo);
-		const absDifFrame = Math.abs(difFrame);
-		if (absDifFrame <= 5) {
-			g_resultObj.realScore += Math.floor((g_headerObj.calcFirstTerm +
-				g_headerObj.calcDifference * multi) * g_headerObj.calcScoreRates[absDifFrame] / 100);
-		}
-	}
+	calcArrowRcv[g_rootObj.scoreType](difFrame);
 }
 
 // ショボーン
 function customJudgeShobon(difFrame) {
-
+	calcArrowDmg[g_rootObj.scoreType](50);
 }
 
 // ウワァン
 function customJudgeUwan(difFrame) {
-
+	calcArrowDmg[g_rootObj.scoreType](100);
 }
 
 // キター
 function customJudgeKita(difFrame) {
 	if (g_rootObj.scoreType === `Type2`) {
 		g_resultObj.realScore += Math.floor(g_headerObj.calcFreeze);
+	} else if (g_rootObj.scoreType === `Type3`) {
+		calcArrowRcv.Type3(difFrame, 1, 5);
 	}
 }
 
 // イクナイ
 function customJudgeIknai(difFrame) {
-
+	calcArrowDmg[g_rootObj.scoreType](100);
 }
