@@ -39,7 +39,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-8.0`;
+	g_localVersion = `ti-8.1`;
 
 	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl === location.href) {
@@ -68,6 +68,10 @@ function customTitleInit() {
 	g_headerObj.cutRate = 0;
 	// 基準コンボ数（Type3用）
 	g_headerObj.cutCombo = 0;
+
+	if (g_rootObj.scoreType === undefined) {
+		g_rootObj.scoreType = `Type1`;
+	}
 }
 
 /**
@@ -78,6 +82,15 @@ function customOptionInit() {
 	const lblTitle = document.getElementById(`lblTitle`);
 	lblTitle.style.animationDuration = `1.5s`;
 	lblTitle.style.animationName = `upToDown`;
+
+	if (g_rootObj.scoreType !== `Type1`) {
+		multiAppend(gaugeSprite,
+			createDivCss2Label(`lblScType`, `Score: ${g_rootObj.scoreType}`, {
+				x: 13, y: 22, w: g_sWidth, h: C_LEN_SETLBL_HEIGHT,
+				siz: 12, align: C_ALIGN_LEFT,
+			})
+		);
+	}
 }
 
 /**
@@ -126,10 +139,6 @@ function customLoadingInit() {
 	// 桜点（Type3用）
 	g_workObj.sakuraScore = 0;
 
-	if (g_rootObj.scoreType === undefined) {
-		g_rootObj.scoreType = `Type1`;
-	}
-
 	// スコア機構
 	if (g_rootObj.scoreType === `Type2`) {
 
@@ -154,6 +163,10 @@ function customLoadingInit() {
 		// スコア除数は総ノート数÷100
 		// 計算結果が1未満になった場合は1とする
 		g_headerObj.cutRate = (g_fullArrows > 100) ? g_fullArrows / 100 : 1.00;
+
+		// 判定強制変更（暫定）
+		g_judgObj.arrowJ = [1, 3, 5, 7, 7];
+		g_judgObj.frzJ = [1, 5, 7];
 	}
 }
 
@@ -165,17 +178,17 @@ function customMainInit() {
 	// スコアドラムロール
 	if (g_rootObj.scoreType === `Type2` || g_rootObj.scoreType === `Type3`) {
 		const judgeSprite = document.getElementById(`judgeSprite`);
-		const lblScore = createDivLabel(`lblScore`, g_sWidth * 3 / 4, g_sHeight - 30, g_sWidth / 4 - 50, 30, 14, `#ffffff`,
-			`Score:`);
-		lblScore.style.textAlign = C_ALIGN_LEFT;
-		lblScore.style.fontFamily = C_LBL_BASICFONT;
-		judgeSprite.appendChild(lblScore);
 
-		const lblScoreRoll = createDivLabel(`lblScoreRoll`, g_sWidth / 2, g_sHeight - 30, g_sWidth / 2 - 10, 30, 14, `#ffffff`,
-			g_workObj.viewScore);
-		lblScoreRoll.style.textAlign = C_ALIGN_RIGHT;
-		lblScoreRoll.style.fontFamily = C_LBL_BASICFONT;
-		judgeSprite.appendChild(lblScoreRoll);
+		multiAppend(judgeSprite,
+			createDivCss2Label(`lblScore`, `Score:`, {
+				x: g_sWidth * 3 / 4, y: g_sHeight - 30, w: g_sWidth / 4 - 50, h: 30,
+				siz: 14, color: `#ffffff`, align: C_ALIGN_LEFT, fontFamily: C_LBL_BASICFONT,
+			}),
+			createDivCss2Label(`lblScoreRoll`, g_workObj.viewScore, {
+				x: g_sWidth / 2, y: g_sHeight - 30, w: g_sWidth / 2 - 10, h: 30,
+				siz: 14, color: `#ffffff`, align: C_ALIGN_RIGHT, fontFamily: C_LBL_BASICFONT,
+			}),
+		);
 
 		if (g_stateObj.d_score === C_FLG_OFF) {
 			lblScore.style.visibility = `hidden`;
