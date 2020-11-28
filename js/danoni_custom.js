@@ -39,7 +39,7 @@ function customLoadingProgress(_event) {
 function customTitleInit() {
 
 	// バージョン表記
-	g_localVersion = `ti-8.1`;
+	g_localVersion = `ti-8.2`;
 
 	// 製作者のデフォルトアドレス
 	if (g_headerObj.creatorUrl === location.href) {
@@ -253,11 +253,12 @@ const calcArrowRcv = {
 	},
 	Type3: (difFrame, rate = 0, plus = 0) => {
 		let coeff;
-		if (g_resultObj.combo > g_headerObj.cutCombo) {
-			coeff = 2 + (g_resultObj.combo - g_headerObj.cutCombo) / g_headerObj.cutCombo / 6;
-		}
-		else {
-			coeff = 1 + g_resultObj.combo / g_headerObj.cutCombo;
+		// FUJIさんソースはコンボ更新前にスコア計算を行うためその補正
+		const comboTotal = g_resultObj.combo + g_resultObj.fCombo - 1;
+		if (comboTotal > g_headerObj.cutCombo) {
+			coeff = 2 + (comboTotal - g_headerObj.cutCombo) / g_headerObj.cutCombo / 6;
+		} else {
+			coeff = 1 + comboTotal / g_headerObj.cutCombo;
 		}
 
 		// スコア更新
