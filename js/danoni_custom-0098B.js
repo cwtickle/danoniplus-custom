@@ -25,7 +25,7 @@
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = "sp-1";
+    g_localVersion2 = "sp-2";
 }
 
 /**
@@ -69,7 +69,7 @@ function customMainInit2() {
     var preblankFrame = g_headerObj.blankFrame - g_headerObj.blankFrameDef + g_stateObj.adjustment;
     var actualFrame = frameNum - preblankFrame;
 
-    if (g_headerObj.keyLabels[g_stateObj.scoreId] === "7") {
+    if (g_headerObj.keyLabels[g_stateObj.scoreId] === "7sp") {
         if (actualFrame < 2353) {
             displayOutStep(7);
             displayOutStep(8);
@@ -94,7 +94,7 @@ function customMainEnterFrame2() {
     var preblankFrame = g_headerObj.blankFrame - g_headerObj.blankFrameDef + g_stateObj.adjustment;
     var actualFrame = frameNum - preblankFrame;
 
-    if (g_headerObj.keyLabels[g_stateObj.scoreId] === "7") {
+    if (g_headerObj.keyLabels[g_stateObj.scoreId] === "7sp") {
         if (actualFrame < 2353) {
 
         } else if (actualFrame === 2353) {
@@ -123,25 +123,25 @@ function customMainEnterFrame2() {
 }
 
 function fadeOutStep(_pos) {
-    var step = document.getElementById("step" + _pos);
+    var step = document.getElementById("stepRoot" + _pos);
     var nextAlpha = parseFloat(step.style.opacity) - 0.02;
     step.style.opacity = nextAlpha;
 }
 
 function displayOutStep(_pos) {
-    var step = document.getElementById("step" + _pos);
+    var step = document.getElementById("stepRoot" + _pos);
     step.style.opacity = 1;
     step.style.display = "none";
 }
 
 function fadeInStep(_pos) {
-    var step = document.getElementById("step" + _pos);
+    var step = document.getElementById("stepRoot" + _pos);
     var nextAlpha = parseFloat(step.style.opacity) + 0.02;
     step.style.opacity = nextAlpha;
 }
 
 function displayInStep(_pos) {
-    var step = document.getElementById("step" + _pos);
+    var step = document.getElementById("stepRoot" + _pos);
     step.style.opacity = 0;
     if (g_stateObj.d_stepzone != C_FLG_OFF) {
         step.style.display = "inherit";
@@ -149,12 +149,12 @@ function displayInStep(_pos) {
 }
 
 function displayDefaultStep(_pos) {
-    var step = document.getElementById("step" + _pos);
+    var step = document.getElementById("stepRoot" + _pos);
     step.style.opacity = 1;
 }
 
 function displayStartStep(_pos) {
-    var step = document.getElementById("step" + _pos);
+    var step = document.getElementById("stepRoot" + _pos);
     step.style.opacity = 0.3;
 }
 
