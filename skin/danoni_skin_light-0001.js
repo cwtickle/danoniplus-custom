@@ -96,8 +96,8 @@ function skinTitleInit() {
                 }
 
                 document.onkeydown = evt => {
-                    const setKey = transCode(evt.keyCode);
-                    if (setKey === 13) {
+                    const setKey = transCode(evt.code);
+                    if (setKey === `Enter`) {
                         clearTimeout(g_timeoutEvtTitleId);
                         clearWindow();
                         optionInit();
@@ -247,7 +247,7 @@ function skinMainInit() {
 
         $id(`infoSprite`).transform = `rotate(90deg) scale(0.75, 0.6)`;
         $id(`infoSprite`).left = `-40px`;
-        $id(`infoSprite`).top = `55px`;
+        $id(`infoSprite`).top = `85px`;
         $id(`lblLife`).display = C_DIS_NONE;
         $id(`lifeBackObj`).display = C_DIS_NONE;
         $id(`lblCredit`).display = C_DIS_NONE;
@@ -257,11 +257,11 @@ function skinMainInit() {
         $id(`lifeBar`).width = `25px`;
 
         $id(`lblReady`).top = `200px`;
-        $id(`charaJ`).left = `175px`;
+        $id(`charaJ`).left = `225px`;
         $id(`charaJ`).top = `220px`;
         $id(`charaJ`).fontSize = `20px`;
         $id(`charaJ`).filter = `grayscale(100%)`;
-        $id(`comboJ`).left = `175px`;
+        $id(`comboJ`).left = `225px`;
         $id(`comboJ`).top = `260px`;
         $id(`comboJ`).fontSize = `30px`;
         $id(`comboJ`).filter = `grayscale(100%)`;
@@ -488,17 +488,20 @@ function skinResultInit() {
             $id(`btnBack`).display = C_DIS_NONE;
             $id(`btnCopy`).display = C_DIS_NONE;
             $id(`btnTweet`).display = C_DIS_NONE;
+            $id(`btnGitter`).display = C_DIS_NONE;
 
         } else {
-            $id(`btnBack`).left = `125px`;
+            $id(`btnBack`).left = `162.5px`;
             $id(`btnBack`).width = `175px`;
+            $id(`btnBack`).height = `80px`;
             $id(`btnBack`).top = `375px`;
-            $id(`btnCopy`).left = `300px`;
+            $id(`btnCopy`).left = `337.5px`;
             $id(`btnCopy`).width = `175px`;
             $id(`btnCopy`).top = `375px`;
-            $id(`btnTweet`).left = `300px`;
+            $id(`btnTweet`).left = `337.5px`;
             $id(`btnTweet`).width = `175px`;
             $id(`btnTweet`).top = `406.25px`;
+            $id(`btnGitter`).width = `175px`;
             $id(`btnRetry`).display = C_DIS_NONE;
 
             let rankMark = ``;
@@ -529,14 +532,17 @@ function skinResultInit() {
             lblTitle2.style.fontSize = `40px`;
             divRoot.appendChild(lblTitle2);
 
-            const lbl = createDivCssLabel(`resultLbl`, 175, 200, 200, 200, 20, `${C_JCR_II}<br>${C_JCR_MATARI}<br>${C_JCR_UWAN}<br>MAX COMBO<br><br>SCORE`);
+            const lbl = createDivCssLabel(`resultLbl`, 175, 200, 200, 200, 20, `${g_lblNameObj.j_ii}<br>${g_lblNameObj.j_matari}<br>${g_lblNameObj.j_uwan}<br>MAX COMBO<br><br>SCORE`);
             lbl.style.textAlign = C_ALIGN_LEFT;
+            lbl.style.pointerEvents = C_DIS_NONE;
             divRoot.appendChild(lbl);
             const cnt = createDivCssLabel(`resultCnt`, 275, 200, 150, 200, 20, `${g_resultObj.ii + g_resultObj.shakin}<br>${g_resultObj.matari}<br>${g_resultObj.shobon + g_resultObj.uwan}<br>${g_resultObj.maxCombo}<br><br>${Math.round(g_resultObj.score / 100)}`);
             cnt.style.textAlign = C_ALIGN_RIGHT;
+            cnt.style.pointerEvents = C_DIS_NONE;
             divRoot.appendChild(cnt);
-            const lblRank = createDivCustomLabel(`lblRankA`, 300, 90, 200, 20, 80, `#000000`,
-                `${rankMark}`, `${getBasicFont()}`);
+            const lblRank = createDivCss2Label(`lblRankA`, rankMark, {
+                x: 325, y: 90, w: 200, h: 20, siz: 80, color: `#000000`, fontFamily: getBasicFont(`"Bookman Old Style"`)
+            });
             lblRank.style.textAlign = C_ALIGN_CENTER;
             divRoot.appendChild(lblRank);
         }

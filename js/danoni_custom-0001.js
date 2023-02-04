@@ -25,7 +25,7 @@
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = "sp-1";
+    g_localVersion2 = "sp-2";
 }
 
 /**
@@ -63,11 +63,11 @@ function customLoadingInit2() {
         g_posObj.reverseStepY = g_posObj.distY - g_posObj.stepY - g_posObj.stepDiffY - C_ARW_WIDTH;
         g_posObj.arrowHeight = g_sHeight + g_posObj.stepYR - g_posObj.stepDiffY * 2;
 
-        C_JCR_II = "(・∀・)ｲｲ!!";
-        C_JCR_SHAKIN = "(`・ω・)ｼｬｷﾝ";
-        C_JCR_MATARI = "( ´∀`)ﾏﾀｰﾘ";
-        C_JCR_SHOBON = "(´・ω・`)ｼｮﾎﾞｰﾝ";
-        C_JCR_UWAN = "( `Д´)ｳﾜｧﾝ!!";
+        g_lblNameObj.j_ii = "(・∀・)ｲｲ!!";
+        g_lblNameObj.j_shakin = "(`・ω・)ｼｬｷﾝ";
+        g_lblNameObj.j_matari = "( ´∀`)ﾏﾀｰﾘ";
+        g_lblNameObj.j_shobon = "(´・ω・`)ｼｮﾎﾞｰﾝ";
+        g_lblNameObj.j_uwan = "( `Д´)ｳﾜｧﾝ!!";
     } else {
         g_posObj.stepY = 120;
         g_posObj.stepDiffY = g_posObj.stepY - C_STEP_Y;
@@ -75,11 +75,11 @@ function customLoadingInit2() {
         g_posObj.reverseStepY = g_posObj.distY - g_posObj.stepY - g_posObj.stepDiffY - C_ARW_WIDTH;
         g_posObj.arrowHeight = g_sHeight + g_posObj.stepYR - g_posObj.stepDiffY * 2;
 
-        C_JCR_II = "(・∀・)ｲｲ!!";
-        C_JCR_SHAKIN = "(・∀・)ｲｲ!!";
-        C_JCR_MATARI = "( ´∀`)ﾏﾀｰﾘ";
-        C_JCR_SHOBON = "( `Д´)ｳﾜｧﾝ!!";
-        C_JCR_UWAN = "( `Д´)ｳﾜｧﾝ!!";
+        g_lblNameObj.j_ii = "(・∀・)ｲｲ!!";
+        g_lblNameObj.j_shakin = "(・∀・)ｲｲ!!";
+        g_lblNameObj.j_matari = "( ´∀`)ﾏﾀｰﾘ";
+        g_lblNameObj.j_shobon = "( `Д´)ｳﾜｧﾝ!!";
+        g_lblNameObj.j_uwan = "( `Д´)ｳﾜｧﾝ!!";
     }
 }
 
