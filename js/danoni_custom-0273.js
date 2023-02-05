@@ -36,7 +36,7 @@ const setRevFlat = _ => {
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = `sp-2`;
+    g_localVersion2 = `sp-3`;
     // R-Flatを戻す処理
     setRevFlat();
 }
@@ -54,7 +54,7 @@ g_customJsObj.keyconfig.push(_ => {
     const [keyCtrlPtn, keyNum, posMax, divideCnt] =
         [tkObj.keyCtrlPtn, tkObj.keyNum, tkObj.posMax, tkObj.divideCnt];
 
-    const keyconSprite = createEmptySprite(divRoot, `keyconSprite`, g_windowObj.keyconSprite);
+    const keyconSprite = document.getElementById(`keyconSprite`);
     keyconSprite.style.transform = `scale(${g_keyObj.scale})`;
     const kWidth = parseInt(keyconSprite.style.width);
 
