@@ -36,7 +36,7 @@ const setRevFlat = _ => {
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = `sp-3`;
+    g_localVersion2 = `sp-3.1`;
     // R-Flatを戻す処理
     setRevFlat();
 }
@@ -102,15 +102,15 @@ g_customJsObj.keyconfig.push(_ => {
         /**
          * 表示した部分キーの中でカーソルが動くように制御
          */
-        const changeConfigCursor = _ => {
+        const changeConfigCursor = (_resetFlg = false) => {
             const cursorNums = g_stateObj.cursorNums;
             const num = cursorNums.findIndex(val => val === g_currentj);
             if (num === -1) {
                 const prevNum = cursorNums.findIndex(val => val === g_currentj - 1);
-                resetConfigCursor(cursorNums[(prevNum + 1) % cursorNums.length]);
+                resetConfigCursor(cursorNums[_resetFlg ? 0 : (prevNum + 1) % cursorNums.length]);
             }
         };
-        changeConfigCursor();
+        changeConfigCursor(true);
 
         // 多重にリスナーが起動されないよう既存のリスナーを削除
         if (g_stateObj.currentListenerKey !== ``) {
