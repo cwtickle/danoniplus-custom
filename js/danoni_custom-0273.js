@@ -10,6 +10,8 @@
 g_customJsObj.preTitle.push(_ => {
     // 部分キー選択する際のモード
     g_stateObj.keySwitch = 1;
+
+    // キーコンフィグ画面で設定中のカスタムリスナー
     g_stateObj.currentListenerKey = ``;
 });
 
@@ -34,7 +36,7 @@ const setRevFlat = _ => {
  */
 function customTitleInit2() {
     // バージョン表記
-    g_localVersion2 = `sp-1`;
+    g_localVersion2 = `sp-2`;
     // R-Flatを戻す処理
     setRevFlat();
 }
@@ -45,7 +47,6 @@ function customTitleInit2() {
  */
 g_customJsObj.keyconfig.push(_ => {
 
-    let localInitialFlg = false;
     const charas = g_keyObj[`chara${g_headerObj.keyLabels[g_stateObj.scoreId]}_${g_keyObj.currentPtn}`];
 
     // 各種初期値取得（メインソースから複製）
@@ -59,8 +60,6 @@ g_customJsObj.keyconfig.push(_ => {
 
     const maxLeftPos = Math.max(divideCnt, posMax - divideCnt - 2) / 2;
     const maxLeftX = Math.min(0, (kWidth - C_ARW_WIDTH) / 2 - maxLeftPos * g_keyObj.blank);
-
-    g_stateObj.posMax = posMax;
 
     /**
      * keyconSpriteのスクロール位置調整（メインソースから複製、呼び出し用）
@@ -98,58 +97,17 @@ g_customJsObj.keyconfig.push(_ => {
      * キーコンフィグ画面のカーソル制御
      * @param {array} _cursorNums 
      */
-    const customKeyconfigCursor = (_cursorNums) => {
-        let keyCursorStart = Math.min(..._cursorNums);
-
-        /**
-         * 次のカーソルへ移動（メインソースから複製、呼び出し用）
-         * @param {number} _pos 
-         */
-        const searchNextCursor = _pos => {
-            for (let j = g_currentj; j < keyNum + g_currentj; j++) {
-                if (g_keyObj[`keyCtrl${keyCtrlPtn}`][j % keyNum][_pos] !== undefined) {
-                    g_currentj = j % keyNum;
-                    g_currentk = _pos;
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        /**
-         * キーコンフィグ用カーソルのリセット（メインソースから複製、呼び出し用）
-         * @param {number} _resetPos
-         * @param {boolean} _resetCursorFlg
-         */
-        const resetCursor = (_resetPos = 0, _resetCursorFlg = true) => {
-            g_prevKey = -1;
-            if (_resetCursorFlg) {
-                g_currentj = keyCursorStart;
-                if (!searchNextCursor(_resetPos)) {
-                    g_currentk = 0;
-                }
-            } else {
-                if (g_keyObj[`keyCtrl${keyCtrlPtn}`][g_currentj][_resetPos] === undefined) {
-                    searchNextCursor(_resetPos);
-                } else {
-                    g_currentk = _resetPos;
-                }
-            }
-            setKeyConfigCursor();
-        };
+    const customKeyconfigCursor = _ => {
 
         /**
          * 表示した部分キーの中でカーソルが動くように制御
-         * @param {array} _cursorNums 
          */
         const changeConfigCursor = _ => {
             const cursorNums = g_stateObj.cursorNums;
             const num = cursorNums.findIndex(val => val === g_currentj);
             if (num === -1) {
                 const prevNum = cursorNums.findIndex(val => val === g_currentj - 1);
-                g_currentj = cursorNums[(prevNum + 1) % cursorNums.length];
-                g_currentk = 0;
-                setKeyConfigCursor();
+                resetConfigCursor(cursorNums[(prevNum + 1) % cursorNums.length]);
             }
         };
         changeConfigCursor();
@@ -160,8 +118,20 @@ g_customJsObj.keyconfig.push(_ => {
         }
         g_stateObj.currentListenerKey = g_handler.addListener(window, `keydown`, _ => changeConfigCursor());
 
-        // 初期位置指定
-        resetCursor(Number(g_kcType === `Replaced`));
+    };
+
+    /**
+     * カーソル位置のリセット
+     * @param {number} _nextj 
+     */
+    const resetConfigCursor = _nextj => {
+        g_currentj = _nextj;
+        g_currentk = 0;
+        if (g_kcType === `Replaced` && (g_keyObj[`keyCtrl${keyCtrlPtn}`][g_currentj][1] !== undefined)) {
+            g_currentk = 1;
+        }
+        setKeyConfigCursor();
+        keyconSprite.scrollLeft = - maxLeftX;
     };
 
     /**
@@ -197,7 +167,7 @@ g_customJsObj.keyconfig.push(_ => {
             }
         });
         g_stateObj.cursorNums = tmpCursorNums;
-        customKeyconfigCursor(tmpCursorNums);
+        customKeyconfigCursor();
 
         // keySwitchボタンを一旦非選択にして、選択中のものを再度色付け
         for (let j = 1; j <= Object.keys(viewKeys).length; j++) {
@@ -254,10 +224,7 @@ g_customJsObj.keyconfig.push(_ => {
                         changeConfigColor(document.querySelector(`#keycon${j}_${k}`), g_keyObj.currentPtn === -1 ? g_cssObj.keyconfig_Defaultkey : g_cssObj.title_base);
                     }
                 }
-                g_currentj = g_stateObj.cursorNums[0];
-                g_currentk = 0;
-                setKeyConfigCursor();
-                keyconSprite.scrollLeft = - maxLeftX;
+                resetConfigCursor(g_stateObj.cursorNums[0]);
             }
         }, { x: g_sWidth - 60, y: 240, w: 50, h: 20, siz: 14 }, g_cssObj.button_Reset),
     );
